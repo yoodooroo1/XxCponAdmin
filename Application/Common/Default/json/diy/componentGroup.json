@@ -1,0 +1,284 @@
+[
+  {
+    "component_name": "基础组件",
+    "component_list": [
+      {
+        "module_type": 10,
+        "module_name": "商品模块",
+        "content": {
+          "goods_source": "0",
+          "source_id": "0",
+          "is_select_class": "0",
+          "is_select_tag": "0",
+          "class_id": "0",
+          "tag_id": "0",
+          "goods_num": 6,
+          "list_style": "0",
+          "show_style": "0",
+          "show_goods_name": "1",
+          "show_goods_price": "1",
+          "buy_btn_style": "1",
+          "corner_mark_type": "0"
+        }
+      },
+      {
+        "module_type": 11,
+        "module_name": "图片广告",
+        "content": {
+          "selected_img_module": "0",
+          "img_module0_height": "375",
+          "img_module": [
+            {
+              "btn_style": "0",
+              "btn_position": "0",
+              "btn_color": "#fe3434",
+              "img_height": "375",
+              "img_height2": "50%",
+              "swiper_autoplay": "1800"
+            },
+            {
+              "img_gap": 0
+            },
+            {
+              "img_gap": 10,
+              "img_height": "200",
+              "bg_color": "#ffffff"
+            }
+          ],
+          "img_list": []
+        }
+      },
+      {
+        "module_type": 12,
+        "module_name": "图片魔方",
+        "content": {
+          "cube_module": "0",
+          "img_list": [
+            {
+              "img_url": "",
+              "action": "no_action",
+              "action_data": ""
+            }
+          ],
+          "img_gap": "0",
+          "cube_density": "4",
+          "cube_density_row": "4",
+          "cube_density_col": "4",
+          "cube_layout": {
+            "div_id": 1000,
+            "allPickMatrixImg": "0",
+            "allPickMatrix": [],
+            "matrix": []
+          }
+        }
+      },
+      {
+        "module_type": 13,
+        "module_name": "按钮导航",
+        "content": {
+          "btn_num": 4,
+          "bg_color": "#fefefe",
+          "text_color": "#323232",
+          "btn_list": [
+            {
+              "img_url": "",
+              "btn_text": "按钮文字",
+              "action": "no_action",
+              "action_data": "",
+              "sort": 0
+            },
+            {
+              "img_url": "",
+              "btn_text": "按钮文字",
+              "action": "no_action",
+              "action_data": "",
+              "sort": 0
+            },
+            {
+              "img_url": "",
+              "btn_text": "按钮文字",
+              "action": "no_action",
+              "action_data": "",
+              "sort": 0
+            },
+            {
+              "img_url": "",
+              "btn_text": "按钮文字",
+              "action": "no_action",
+              "action_data": "",
+              "sort": 0
+            }
+          ]
+        }
+      },
+      {
+        "module_type": 14,
+        "module_name": "商品分组",
+        "content": {
+          "menu_style": "0",
+          "menu_type": "0",
+          "menu_list": [
+            {
+              "menu_name": "精品选购",
+              "goods_source": "0",
+              "source_id": "",
+              "is_select_class": "0",
+              "is_select_tag": "0",
+              "class_id": "0",
+              "tag_id": "0",
+              "goods_num": 6
+            },
+            {
+              "menu_name": "特价专区",
+              "goods_source": "0",
+              "source_id": "",
+              "is_select_class": "0",
+              "is_select_tag": "0",
+              "class_id": "0",
+              "tag_id": "0",
+              "goods_num": 6
+            }
+          ],
+          "list_style": "0",
+          "show_style": "0",
+          "show_goods_name": "1",
+          "show_goods_price": "1",
+          "buy_btn_style": "1",
+          "corner_mark_type": "0"
+        }
+      },
+      {
+        "module_type": 25,
+        "module_name": "资讯模块",
+        "is_only": "0",
+        "content": {
+          "selected_module": "0",
+          "news_link": {
+            "img_url": "",
+            "action": "one_news",
+            "action_data": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "component_name": "营销组件",
+    "component_list": [
+      {
+        "module_type": 15,
+        "module_name": "优惠券",
+        "content": {
+          "coupon_style": "0",
+          "coupon_color": "0",
+          "bg_color": "",
+          "more_set": [
+            "0"
+          ]
+        }
+      },
+      {
+        "module_type": 16,
+        "module_name": "限时抢购",
+        "content": {
+          "is_select_class": "0",
+          "is_select_tag": "0",
+          "class_id": "0",
+          "tag_id": "0",
+          "goods_num": 6,
+          "show_style": "0",
+          "show_goods_price": "1",
+          "snatch_mark_type": "1",
+          "tag_mark_type": "0",
+          "top_nav_img": {
+            "img_data": {
+              "width": "",
+              "height": "",
+              "img_url": ""
+            },
+            "action": "no_action",
+            "action_data": ""
+          }
+        }
+      },
+      {
+        "module_type": 17,
+        "module_name": "团购",
+        "content": {
+          "is_select_class": "0",
+          "is_select_tag": "0",
+          "class_id": "0",
+          "tag_id": "0",
+          "goods_num": 6,
+          "show_style": "0",
+          "show_goods_price": "1",
+          "buy_btn_style": "1",
+          "scroll_type": "0",
+          "top_nav_img": {
+            "img_data": {
+              "width": "",
+              "height": "",
+              "img_url": ""
+            },
+            "action": "no_action",
+            "action_data": ""
+          }
+        }
+      },
+      {
+        "module_type": 18,
+        "module_name": "新品推荐",
+        "content": {
+          "title_name": "新品推荐",
+          "goods_num": 2
+        }
+      }
+    ]
+  },
+  {
+    "component_name": "其他",
+    "component_list": [
+      {
+        "module_type": 19,
+        "module_name": "搜索框",
+        "content": {
+          "search_style": "0"
+        }
+      },
+      {
+        "module_type": 20,
+        "module_name": "公告",
+        "content": {
+          "btn_type": "0",
+          "bg_color": "#fefefe",
+          "text_color": "#323232",
+          "icon_color": "#fe7e7e"
+        }
+      },
+      {
+        "module_type": 21,
+        "module_name": "辅助线",
+        "content": {
+          "line_color": "#e5e5e5",
+          "line_margin": "0",
+          "line_style": "0"
+        }
+      },
+      {
+        "module_type": 22,
+        "module_name": "辅助空白",
+        "content": {
+          "blank_color": "#f9f9f9",
+          "blank_height": 10
+        }
+      },
+      {
+        "module_type": 23,
+        "module_name": "在线客服",
+        "content": {
+          "module_text": "在线客服"
+        }
+      }
+    ]
+  }
+]

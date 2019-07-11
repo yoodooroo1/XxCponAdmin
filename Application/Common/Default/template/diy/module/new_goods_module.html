@@ -1,0 +1,40 @@
+<php>if (!empty($goodsList)) {</php>
+<div class="design-preview-item">
+  <div class="design-preview-controller">
+    <div class="cap-new-goods">
+      <div class="cap-new-goods-title">
+        <h1>{$module['content']['title_name']}</h1>
+      </div>
+      <!--新品推荐 商品列表-->
+      <div class="new-goods-list">
+        <php>foreach($goodsList as $goods) {</php>
+        <a href="{:U('Goods/goods_detail', array('id'=>$goods['goods_id'],'se'=>$storeId,'f'=>$memberId))}">
+          <div class="goods-img bg-img">
+            <img data-src="{$goods['main_img']}?_800x800x2">
+          </div>
+          <div class="goods-info">
+            <div class="bg-info-box">
+              <div class="goods-img2 bg-img">
+                <img data-src="{$goods['main_img']}?_200x200x2">
+              </div>
+              <div class="goods-text2">
+                <p class="lineTwo">{$goods['goods_name']}</p>
+                <p class="tip">{:L('XINPIN')}</p>
+                <php>if (!empty($priceHideDesc)) {</php>
+                <p class="goods-price">{$priceHideDesc}</p>
+                <php>} else {</php>
+                <p class="goods-price">{$storeInfo['currency_symbol']}{$goods['new_price']}</p>
+                <php>}</php>
+              </div>
+            </div>
+          </div>
+        </a>
+        <php>}</php>
+      </div>
+      <div class="new-goods-more">
+        <a href="{:U('Goods/new_goods',array('se' => $storeId,'f' => $memberId))}">{:L('VIEW_MORE')} > </a>
+      </div>
+    </div>
+  </div>
+</div>
+<php>}</php>

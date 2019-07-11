@@ -1,0 +1,19 @@
+<div class="design-preview-item">
+  <div class="design-preview-controller">
+    <div class="cap-btn-nav">
+      <php>$style = 'style="background-color:' . $module['content']['bg_color'] . '"';</php>
+      <ul class="m13-btn_num__{$module['content']['btn_num']}" {$style}>
+        <php>foreach($module['content']['btn_list'] as $key => $btn) {</php>
+        <li>
+          <php>$url = getLinkTypeUrl($btn['action'], $btn['action_data'], $storeInfo);</php>
+          <a class="wap-bg-img" href="{$url}">
+            <p class="btn-img"><img data-src="{$btn['img_url']}?_200x200x2" class="img0-opacity0"></p>
+            <php>$itemStyle = 'style="color:' . $module['content']['text_color'] . '"';</php>
+            <p {$itemStyle} class="lineOne">{$btn['btn_text']}</p>
+          </a>
+        </li>
+        <php>}</php>
+      </ul>
+    </div>
+  </div>
+</div>

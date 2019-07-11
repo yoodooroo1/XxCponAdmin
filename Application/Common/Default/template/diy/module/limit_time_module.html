@@ -1,0 +1,73 @@
+<php>if (!empty($goodsList)) {</php>
+<php>
+  $show_style = isset($module['content']['show_style']) ? $module['content']['show_style'] : 0;
+  $show_goods_price = isset($module['content']['show_goods_price']) ? $module['content']['show_goods_price'] : 1;
+  $snatch_mark_type = isset($module['content']['snatch_mark_type']) ? $module['content']['snatch_mark_type'] : 1;
+  $tag_mark_type = isset($module['content']['tag_mark_type']) ? $module['content']['tag_mark_type'] : 0;
+</php>
+<div class="design-preview-item">
+  <div class="design-preview-controller">
+    <div
+        class="
+        cap-limit-time
+        m16-show_style__{$show_style}
+        m16-show_goods_price__{$show_goods_price}
+        m16-snatch_mark_type__{$snatch_mark_type}
+        m16-tag_mark_type__{$tag_mark_type}">
+      <!--头部文字+倒计时-->
+      <php>$time = $goodsList[0]['sheng_yu_time'];</php>
+      <div class="limit-time-title">
+        <div>
+          <span class="font-bold font-16">{:L('QG_KILLS_TIME_2')}</span>
+          <div class="title-right">
+            <span class="font-12">距结束</span>
+            <span class="time-box limit-time-countdown" data-time="{$time}" style="padding-left: 2px">
+              <font>00</font> {:L('DAY')}
+              <font>00</font> :
+              <font>00</font> :
+              <font>00</font>
+            </span>
+            <a class="right-link-tip"
+               href="{:U('Goods/shopFlashSale',array('se' => $storeId,'f' => $memberId, 'module_key' => $moduleKey))}">
+              {:L('MORE')}
+            </a>
+          </div>
+        </div>
+      </div>
+      <!--轮播商品-->
+      <div class="limit-time-swiper">
+        <ul class="swiper-wrapper">
+          <php>foreach($goodsList as $key => $goods) {</php>
+          <li class="swiper-slide">
+            <a
+               href="{:U('Goods/goods_detail', array('id'=>$goods['goods_id'],'se'=>$storeId,'f'=>$memberId))}">
+              <div class="goods-img bg-img">
+                <img data-src="{$goods['main_img']}?_400x400x2">
+              </div>
+              <div class="goods-text">
+                <div class="goods-name lineOne">{$goods['goods_name']}</div>
+                <div class="goods-price lineOne">
+                  <php>if (!empty($priceHideDesc)) {</php>
+                  <p class="style-text-color font-13">{$priceHideDesc}</p>
+                  <php>} else {</php>
+                  <p class="style-text-color font-13">{$storeInfo['currency_symbol']}{$goods['new_price']}</p>
+                  <php>if ($goods['goods_price'] != $goods['new_price']) {</php>
+                  <del class="font-10">{$storeInfo['currency_symbol']}{$goods['goods_price']}</del>
+                  <php>}</php>
+                  <php>}</php>
+                </div>
+                <php>if (!empty($tagName)) {</php>
+                <i class="mark-tag style-border-color style-text-color font-11">{$tagName}</i>
+                <php>}</php>
+                <i class="mark-snatch style-bg1-color font-13">抢</i>
+              </div>
+            </a>
+          </li>
+          <php>}</php>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<php>}</php>
+

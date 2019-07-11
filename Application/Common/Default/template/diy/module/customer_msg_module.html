@@ -1,0 +1,38 @@
+<!--需添加：
+style={left:left*wap屏幕宽度/375,top: top*wap屏幕高度/screenHeight}
+屏幕宽||屏幕高||样式有误，后台新增了"style": {left:'0',top:'0',screenHeight: '100'}时再调整
+-->
+<php>$style = $module['style'];</php>
+<div class="cap-customer-msg img-del-hover" id="customer-msg-fixed">
+  <a href="{:U('Message/customerList',array('se'=>$storeId,'f' => $memberId))}">{$module['btn_text']}<if condition="$unReadNum gt 0"><font>{$unReadNum}</font></if></a>
+</div>
+
+<script>
+  var top1 = "{$module['style']['top']}";
+  var left1 = "{$module['style']['left']}";
+  var screenHeight = "{$module['style']['screenHeight']}";
+  var screenW = document.documentElement.clientWidth ;
+  var screenH = document.documentElement.clientHeight;
+  var left_ = (+left1)*screenW/375;
+  var top_ = ((+top1)*screenH/(+screenHeight));
+  if(top_ > (screenH - 93)){
+    top_ = screenH - 80;
+  }else if(top_ < 43){
+    top_ = 43;
+  }
+  document.getElementById('customer-msg-fixed').style.left = left_ + 'px';
+  document.getElementById('customer-msg-fixed').style.top = top_ + 'px';
+  // 消息数量
+  var unReadNum = '{UN_READ_NUM}'
+  if (+unReadNum > 0) {
+    // 如果消息数量大于0
+    var div = document.getElementById('customer-msg-fixed')
+    var a = div.children[0]
+    if (a.childNodes.length > 1) {
+      // 如果已经有数量了 把数量替换
+      a.lastElementChild.innerHTML = unReadNum
+    } else {
+      a.innerHTML += '<font>' + unReadNum + '</font>'
+    }
+  }
+</script>

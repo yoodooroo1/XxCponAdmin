@@ -1,0 +1,36 @@
+{
+  "type": "array",
+  "items": {
+    "type": "array",
+    "properties": {
+      "param_name": {
+        "type": "string",
+        "required": true
+      },
+      "param_desc": {
+        "type": "string"
+      },
+      "param_sort": {
+        "type": [
+          "string",
+          "integer"
+        ],
+        "required": true,
+        "minimum": 0
+      },
+      "is_show": {
+        "type": [
+          "string",
+          "number"
+        ],
+        "required": true,
+        "enum": [
+          0,
+          1,
+          "0",
+          "1"
+        ]
+      }
+    }
+  }
+}

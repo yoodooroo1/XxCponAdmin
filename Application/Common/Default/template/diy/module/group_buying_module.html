@@ -1,0 +1,175 @@
+<php>if (!empty($goodsList)) {</php>
+<php>
+  $show_style = isset($module['content']['show_style']) ? $module['content']['show_style'] : 0;
+  $show_goods_price = isset($module['content']['show_goods_price']) ? $module['content']['show_goods_price'] : 1;
+  $buy_btn_style = isset($module['content']['buy_btn_style']) ? $module['content']['buy_btn_style'] : 1;
+  $scroll_type = isset($module['content']['scroll_type']) ? $module['content']['scroll_type'] : 0;
+</php>
+<div class="design-preview-item">
+  <div class="design-preview-controller">
+    <div id="group-buying-swiper__{$module['module_id']}"
+        class="
+        cap-group-buying
+        m17-show_style__{$show_style}
+        m17-show_goods_price__{$show_goods_price}
+        m17-buy_btn_style__{$buy_btn_style}
+        m17-scroll_type__{$scroll_type}">
+      <div class="group-buying-title">
+        <span>{:L('XSXL_TG')}</span>
+        <a class="right-link-tip"
+           href="{:U('GroupBuying/groupGoodsList',array('se'=>$storeId,'f'=>$memberId, 'module_key' => $moduleKey))}">{:L('MORE')}</a>
+      </div>
+      <div class="group-buying-content swiper-container-horizontal group-buying-swiper" style="position: relative">
+        <ul class="swiper-wrapper">
+          <!--group_state 0未开始 1开始 2抢光了-->
+          <php>foreach($goodsList as $goods) {</php>
+          <php>$href =
+            U('GroupBuying/groupGoodsInfo',array('group_id'=>$goods['group_id'],'se'=>$storeId,'f'=>$memberId));
+          </php>
+          <!--{$goods['group_state']}-->
+          <!--0未开始-->
+          <php>if ($goods['group_state'] == 0) {</php>
+
+          <li class="swiper-slide">
+            <a class="item-list"
+               href="{$href}">
+              <div class="item-img">
+                <img data-src="{$goods['goods_image']}?_400x400x2">
+              </div>
+              <div class="item-text">
+                <p class="lineOne goods-name">{$goods['goods_name']}</p>
+                <div class="text-state__0">
+                  <p class="font-11 style-text-color style-bg1-opacity01">距开始还有{$goods['start_time_string']}</p>
+                  <p class="font-11 style-text-color style-bg1-opacity01">{$goods['group_mode_desc']}</p>
+                </div>
+                <div class="group-price">
+                  <b class="style-text-color font-16">{$storeInfo['currency_symbol']}{$goods['group_price_string']}</b>
+                  <del class="font-11">{$storeInfo['currency_symbol']}{$goods['goods_price_string']}</del>
+                </div>
+                <div class="buy-style" style="background: #c0c0c0">
+                  <div class="btn-style-container">
+                    <font class="font-12">{:L('JJKS')}<!--即将开始--></font>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </li>
+
+          <php>} elseif ($goods['group_state'] == 1) {</php>
+
+          <li class="swiper-slide">
+            <a class="item-list"
+               href="{$href}">
+              <div class="list-img bg-img">
+                <img data-src="{$goods['goods_image']}?_400x400x2">
+              </div>
+              <div class="list-text">
+                <p class="lineOne goods-name">{$goods['goods_name']}</p>
+                <div class="list-text-o">
+                  <div class="group-buying-progress">
+                    <!--加载条-->
+                    <progress value="{$goods['value_num']}" max="{$goods['all_num']}" class="style-progress-color"></progress>
+                    <div class="progress-div">
+                      <font class="press-1 style-text-color font-11">
+                        {:L('YCT_',array('num'=>$goods['has_join_num']))}<!--已参团{$item['has_join_num']}件-->
+                      </font>
+                      <font class="press-2 style-text-color font-11">{$goods['num_ratio']}%</font>
+                    </div>
+                  </div>
+                  <p class="style-bg1-color remain-time font-11">{:L('JJSHY')}
+                    <span class="group-buying-countdown font-11" data-time="{$goods['end_time_remain']}">
+                      <font class="font-11">00</font>{:L('DAY')}<font class="font-11">00</font>:<font class="font-11">00</font>:<font class="font-11">00</font>
+                    </span>
+                  </p>
+                </div>
+                <div class="group-price">
+                  <php>if (!empty($priceHideDesc)) {</php>
+                  <b class="style-text-color font-16">{$priceHideDesc}</b>
+                  <php>} else {</php>
+                  <b class="style-text-color font-16">{$storeInfo['currency_symbol']}{$goods['group_price_string']}</b>
+                  <del class="font-11">{$storeInfo['currency_symbol']}{$goods['goods_price_string']}</del>
+                  <php>}</php>
+                </div>
+                <php>
+                  $btn_bg = '';
+                  if ($module['content']['buy_btn_style'] == 1) {
+                    $btn_bg = 'style-bg1-color';
+                  }
+                </php>
+                <div class="buy-style {$btn_bg}">
+                  <div class="btn-style-container">
+                    <i class="styleicon-btn-buy"></i><font class="font-12">{:L('QG_AT_ONCE')}<!--立即抢购--></font>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </li>
+
+          <php>} elseif ($goods['group_state'] == 2) {</php>
+
+          <li class="swiper-slide">
+            <a class="item-list" href="{$href}">
+              <div class="item-img">
+                <img data-src="{$goods['goods_image']}?_400x400x2">
+              </div>
+              <div class="item-text">
+                <p class="lineaOne goods-name">{$goods['goods_name']}</p>
+                <div class="itemTextM">
+                  <p class="font-10 lineOne1 colorRed">{:L('TGJS_TIP2',array('num'=>$goods['stock_num']))}</p>
+                </div>
+                <div class="group-price">
+                  <b class="colorGrey font-16">{$storeInfo['currency_symbol']}{$goods['group_price_string']}</b>
+                  <del class="font-11">{$storeInfo['currency_symbol']}{$goods['goods_price_string']}</del>
+                </div>
+                <div class="buy-style" style="background: #F2F2F2">
+                  <div class="btn-style-container">
+                    <font class="font-12" style="color: #919191">{:L('BQGL')}<!--被抢光了--></font>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </li>
+
+          <php>}</php>
+          <php>}</php>
+        </ul>
+        <php>if ($module['content']['scroll_type'] == 1) {</php>
+          <div class="swiper-pagination swiper-pagination-progress" id="group-buying-swiper-pagination__{$module['module_id']}">
+            <span class="swiper-pagination-progressbar"></span>
+          </div>
+        <php>}</php>
+      </div>
+    </div>
+  </div>
+</div>
+<php>}</php>
+<!--<script>
+
+
+  // 团购倒计时.轮播
+  (function () {
+    var module_id = "{$module['module_id']}"
+    var pagination_el = '#group-buying-swiper-pagination__' + module_id
+    groupBuyingSwiper('#group-buying-swiper__'+module_id, +autoplay)
+    var countDowns = $('.group-buying-countdown')
+
+    function groupBuyingSwiper(el) {
+      new Swiper(el, {
+        paginationClickable: true,
+        autoplayDisableOnInteraction: false,
+        speed: 350,//速度
+        autoplay: 1800,//自动播放
+        loop: true,
+        pagination : pagination_el,
+        paginationType: 'progress',
+        // 轮播初始化后计算时间
+        onInit: function () {
+          countDowns = $('.group-buying-countdown')
+          countDowns = [].slice.call(countDowns)
+          countDowns.forEach(setCountDownInterVal)
+        }
+      });
+    }
+  })();
+</script>-->
+

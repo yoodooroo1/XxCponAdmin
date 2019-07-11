@@ -1,0 +1,44 @@
+{
+  "code": 200,
+  "msg": "",
+  "data": {
+    "total": "5",
+    "list": [
+      {
+        "id": "1",
+        "type": "违规",
+        "trigger": "关键词",
+        "content": "请文明聊天！",
+        "deal_with": "2"
+      },
+      {
+        "id": "2",
+        "type": "余额",
+        "trigger": "聊币不足",
+        "content": "您的余额不足",
+        "deal_with": "1"
+      },
+      {
+        "id": "3",
+        "type": "视频违规",
+        "trigger": "人工触发",
+        "content": "请注意视频尺寸，切勿...",
+        "deal_with": "2"
+      },
+      {
+        "id": "4",
+        "type": "视频违规V2",
+        "trigger": "人工触发",
+        "content": "您已严重违规规定，暂停..",
+        "deal_with": "3"
+      },
+      {
+        "id": "5",
+        "type": "视频违规V3",
+        "trigger": "api触发",
+        "content": "请注意视频尺寸，切勿...",
+        "deal_with": "2"
+      }
+    ]
+  }
+}

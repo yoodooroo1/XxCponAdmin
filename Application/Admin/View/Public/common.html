@@ -1,0 +1,106 @@
+<!-- template 左侧菜单+顶部公共+面包屑导航-->
+<script type="x-template" id="temp_common">
+  <div class="temp-common" :class="{'menu-min': isCollapse}">
+    <div class="common-top">
+      <div class="collapse-btn" @click.prevent="changeCollapse"><i class="fa" :class="isCollapse ? 'fa-indent' : 'fa-outdent'"></i></div>
+      <div class="top-right">
+        <!--面包屑导航-->
+        <div class="right-l">
+          <el-breadcrumb separator="/">
+            <el-breadcrumb-item v-for="(list, index) in tempData.breadcrumbList" :key="index"><a :href="list.path">{{list.title}}</a></el-breadcrumb-item>
+          </el-breadcrumb>
+        </div>
+        <!--右侧个人信息-->
+        <div class="right-r">
+          <el-dropdown>
+            <el-button type="primary">
+              <span class="admin-role"><img src=""><font>管理员</font></span>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item @click.native="dropdownClick('admin.php?c=Seller&a=changePassword')">修改密码</el-dropdown-item>
+              <el-dropdown-item @click.native="dropdownClick('admin.php?c=Auth&a=logout')">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+      </div>
+    </div>
+    <aside class="common-menu">
+      <div class="top-logo"><h1>后台管理系统</h1></div>
+      <!--导航菜单-->
+      <el-menu class="el-menu-vertical scrollbar-default" :default-active="tempData.menuActive" :collapse-transition="false" :collapse="isCollapse"
+               @open="handleOpen" @close="handleClose" @select="handleSelect">
+        <template v-for="(item,index) in menuList">
+          <el-submenu :index="item.path_key+''" v-if="item.child && item.child.length > 0">
+            <template slot="title"><i :class="item.iconCls"></i><span>{{item.name}}</span></template>
+            <el-menu-item v-for="(child,i2) in item.child"
+                          :index="item.path_key+'-'+child.path_key" :key="i2">{{child.name}}</el-menu-item>
+          </el-submenu>
+          <el-menu-item :index="item.path_key+''" v-else><i :class="item.iconCls"></i><span slot="title">{{item.name}}</span></el-menu-item>
+        </template>
+      </el-menu>
+    </aside>
+  </div>
+</script>
+<script>
+  var TEMP_COMMON = {
+    template: '#temp_common',
+    components:{},
+    props: {
+      tempData: Object
+    },//接收父级组件参数
+    data: function () {
+      return {
+        menuList: {$menu_list},
+        isCollapse: false,//左侧菜单是否缩小化
+      }
+    },
+    watch:{
+      //监听左侧菜单是否收缩展开
+      'isCollapse': function (newValue) {
+        var self = this;
+        self.$nextTick(function () {
+          if(newValue){
+            $('.temp-body').addClass('temp-body-min')
+          }else{
+            $('.temp-body').removeClass('temp-body-min')
+          }
+        })
+      }
+    },
+    methods: {
+      changeCollapse:function () {
+        this.isCollapse = !this.isCollapse;
+        //this.$emit('temp-event', this.isCollapse);//调用父组件方法，并传参
+      },
+      handleOpen: function(key, keyPath) {
+        console.log(key, keyPath);
+        console.log('handleOpen');
+      },
+      handleClose: function(key, keyPath) {
+        console.log(key, keyPath);
+        console.log('handleClose');
+      },
+      handleSelect: function(key, keyPath) {
+        var self = this;
+        self.menuList.forEach(function (value) {
+          if(value.child){
+            value.child.forEach(function (value2) {
+              var text = value.path_key+'-'+value2.path_key;
+              if(key == text){
+                window.location.href = value2.path;
+              }
+            })
+          }else{
+            if(key == value.path_key){
+              window.location.href = value.path;
+            }
+          }
+        })
+      },
+      //点击右上角下拉菜单，跳转页面
+      dropdownClick: function (href) {
+        window.location.href = href;
+      }
+    }
+  }
+</script>

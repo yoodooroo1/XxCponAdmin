@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{:L('SELLER_MANAGE_CENTER')}</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/media/css/adminLogin.css">
+    <style>
+      a{
+        text-decoration:none;
+        color:#0d638f;
+      }
+    </style>
+</head>
+<body style="height: 100%">
+<div class="main" style="height: 100%">
+    <div class="loginImg"><span style="display:table-cell;  vertical-align:middle;"><img
+            src="__PUBLIC__/media/image/loginImg.png"></span></div>
+    <div class="loginMian">
+			<span style="display:table-cell; vertical-align:middle;">
+				<div class="loginText">
+					 <h1 class="logiTtitle">{:L('SELLER_MANAGE_CENTER')}<!--商家管理中心--></h1>
+					<div class="accountInput">
+						<input type="text" name="account" value="{$name}" placeholder="{:L('INPUT_SELLER_ACCOUNT')}"><!--请填写商家账号-->
+					</div>
+					<div class="passwordInput">
+						<input type="password" name="password" value="{$password}" placeholder="{:L('INPUT')}{:L('PWD')}"><!--请输入密码-->
+					</div>
+                    
+                    <div class="" style="position: relative" id="tel_code" hidden >
+						<input type="text" name="tel_code" style="width:40%" placeholder="请输入授权手机验证码"><button type="button" class="button2 fr border_no color_fff" style="width:inherit;background-color: #E36F6F;    position: relative;    top: -8px;padding: .5rem;font-size: 12px;" onclick="sendMessage()" id="check">获取验证码</button>
+					</div>
+                  
+                    
+					<div class="codeInput" style="position: relative">
+						<input type="text" name="code" placeholder="{:L('INPUT')}{:L('VERIFY')}"><!--请填写验证码-->
+						<img src="{:U('Auth/verify')}" id="captcha-container" class="codeImg">
+					</div>
+                 
+					<div class="checkBox">
+						<label><input type="checkbox" name="remember" value="1" checked><span>{:L('SAVE_PWD')}<!--保存密码--></span></label>
+					</div>
+					<button class="button" type="button" onclick="submitLogin()">{:L('INTO_ADMIN')}<!--进入管理--></button>
+
+				</div>
+			</span>
+    </div>
+</div>
+</body>
+</html>
+<script src="__JQUERY__"></script>  
+<script src="__LAYER_JS__"></script>
+<script type="text/javascript">
+    // 验证码生成
+    var captcha_img = $('#captcha-container');
+    var verifyimg = captcha_img.attr("src");
+    captcha_img.attr('title', '{:L("CLICK_REFRESH")}');//点击刷新
+    captcha_img.click(function () {
+        if (verifyimg.indexOf('?') > 0) {
+            $(this).attr("src", verifyimg + '&random=' + Math.random());
+        } else {
+            $(this).attr("src", verifyimg.replace(/\?.*$/, '') + '?' + Math.random());
+        }
+    });
+    //提交验证
+    //enter键触发提交验证事件
+    window.document.onkeydown = enter;
+
+    function enter(evt) {
+        evt = (evt) ? evt : window.event;
+        if (evt.keyCode) {
+            //控制键键码值 || //数字键盘上的键的键码值
+            if (evt.keyCode == 13 || evt.keyCode == 108) {
+                submitLogin();
+            }
+        }
+    }
+
+    function submitLogin() {
+        var account = $('input[name="account"]').val();
+        var password = $('input[name="password"]').val();
+        var remember = $('input[name="remember"]:checked').val();
+        var code = $('input[name="code"]').val();
+        var tel_code = $('input[name="tel_code"]').val();
+        if (account.length == 0) {
+            //请填写商家账号
+            layer.msg('{:L("INPUT_SELLER_ACCOUNT")}', {icon: 2, time: 800, shade: 0.5});
+            return false;
+        }
+        else if (password.length == 0) {
+            //请输入密码
+            layer.msg('{:L("INPUT")}{:L("PWD")}！', {icon: 2, time: 800, shade: 0.5});
+            return false;
+        }
+        else if (code.length == 0) {
+            //请输入验证码
+            layer.msg('{:L("INPUT")}{:L("VERIFY")}！', {icon: 2, time: 800, shade: 0.5});
+            return false;
+        }
+        else {
+            //ajax提交表单，#login_form为表单的ID。 如：$('#login_form').ajaxSubmit(function(data) { ... });
+            $.ajax({
+                url: "{:U('Auth/login')}",
+                data: {
+                    username: account,
+                    password: password,
+                    remember: remember,
+                    verify: code,
+                    tel_code: tel_code
+                },        
+                type: 'post',   
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.code === 200) {
+                        //登录成功咯！  正在为您跳转...
+                        layer.msg('{:L("ADMIN_LOGIN_SUCCESS")}', {
+                            icon: 16, shade: 0.5, time: 600
+                        });
+                        setTimeout(function () {
+                            window.location.href = "{:U('Index/index')}";
+                        }, 600)
+                    } else {
+                        if(data.code == '1'){
+                            $("#tel_code").show(); 
+                        }
+                        captcha_img.click();
+                        layer.msg(data.msg, {icon: 2, time: 800, shade: 0.5});
+
+                    }
+                },
+				error: function () {
+                    //系统繁忙,请稍后重试...
+                    layer.msg('{:L("REQUEST_ERROR_SYSTEM")}', {
+                        icon: 16, shade: 0.5, time: 600
+                    });
+                }
+            });
+        }
+    }
+    
+    
+    var InterValObj; //timer变量，控制时间
+    var count = 60; //间隔函数，1秒执行
+    var curCount;//当前剩余秒数
+    function sendMessage() {
+        var account = $('input[name="account"]').val();
+        if (account.length == 0) {
+            //请填写商家账号
+            layer.msg('{:L("INPUT_SELLER_ACCOUNT")}', {icon: 2, time: 800, shade: 0.5});
+            return false;
+        }   
+        $('#check').attr("disabled", "true");
+        $.ajax({			 
+            url:"{:U('Auth/ajaxSendSmsCode')}",  	
+            type:'POST',    
+            data:{loginname:account},  
+            dataType:'JSON',  
+            async : false, //默认为true 异步   
+            error:function(XMLHttpRequest, textStatus, errorThrown){ 
+                layer.msg('短信请求失败',{icon:2,time:1000});	
+            },    
+            success:function(data){  
+                if(data.code == 200){
+                    curCount = count;
+                    InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+                }else{    
+                    layer.msg(data.msg,{icon:2,time:1000});	
+                    $('#check').removeAttr("disabled");//启用按钮
+                }
+            }
+        });   
+       
+        //向后台发送处理数据ajax
+    }
+   
+    //time处理函数
+    function SetRemainTime() {
+        if (curCount == 0 ){
+            window.clearInterval(InterValObj);//停止计时器
+            $('#check').removeAttr("disabled");//启用按钮
+            $('#check').html("点击重新发送");
+            $('#check').css('background-color','#E36F6F')
+        }
+        else {
+            curCount--;
+            $('#check').css('background-color','#D7D7D7')
+            $('#check').html(curCount + "秒后重新发送");
+        }
+    }
+</script>

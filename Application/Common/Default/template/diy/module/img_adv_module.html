@@ -1,0 +1,15 @@
+<php>$content = $module['content'];</php>
+<php>$imgList = $module['content']['img_list'];</php>
+<php>$imgModule = $module['content']['img_module'];</php>
+<php>$selectedImgModule = $module['content']['selected_img_module'];</php>
+<php>
+  $advH = '';
+  if($imgModule[0]['img_height2']){
+    $advH = 'style="padding-bottom:'.$imgModule[0]['img_height2'].'"';
+  }
+</php>
+<div class="design-preview-item">
+  <div class="design-preview-controller">
+    <include file="publicTplPath" is_var="1"/>
+  </div>
+</div>

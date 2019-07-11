@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/Public/layui/css/layui.css">
+    <script type="text/javascript" src="__ROOT__/Public/layui/layui.js"></script>
+    <title>主页</title>
+    <style type="text/css">
+        .header{width: 100%;height:50px;line-height: 50px;background: dodgerblue}
+        .title{font-size: 16px;color: #FFFFFF}
+        .menu{width: 200px;position: absolute}
+    </style>
+</head>
+<body>
+<div class="header">
+    <ul class="layui-nav layui-bg-blue">
+        <span style="margin-left: 10px;font-weight: bold;font-size: 20px">门店卡卷管理系统</span>
+        <li class="layui-nav-item" style="float: right">
+            <a  href=""><img src="__ROOT__/Public/common/img/headimg/d.jpg" class="layui-nav-img">管理员</a  >
+            <dl class="layui-nav-child">
+                <dd ><a href="javascript:;" onclick="logout()">退出</a></dd>
+            </dl>
+        </li>
+    </ul>
+</div>
+<div class="menu" id="menu" style="margin-top:7px">
+    <div class="layui-collapse" lay-accordion>
+            <div class="layui-colla-content layui-show" style="width: 100%;padding: 0">
+                    <div class="layui-colla-item" >
+                        <h2 class="layui-colla-title"style="background: white;font-size: 16px;font-weight: bold">优惠卷</h2>
+                        <div class="layui-colla-content layui-show" onclick="menuFire(this)" src="/admin/coupon/index">
+                            <div style="font-size: 15px;"><p>优惠卷绑定</p></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    <!--<ul class="layui-nav layui-nav-tree" lay-filter="test" style="background: deepskyblue">-->
+        <!--&lt;!&ndash; 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> &ndash;&gt;-->
+        <!--<li class="layui-nav-item layui-nav-itemed">-->
+            <!--<a href="javascript:;"style="color: black">优惠卷</a>-->
+            <!--<dl class="layui-nav-child">-->
+                <!--<dd onclick="menuFire(this)" src="/admin/coupon/index"><a>优惠卷绑定</a></dd>-->
+            <!--</dl>-->
+        <!--</li>-->
+    <!--</ul>-->
+</div>
+<div class="main" style="position: absolute;left: 200px;right: 0px" >
+    <iframe src="/admin/coupon/index" onload="resetMainHeight(this)" style="width: 100%;height: 100%;"frameborder="0" scrolling="0"></iframe>
+</div>
+<script src="__ROOT__/Public/admin/js/Index/index.js?version={$v}"></script>
+</body>
+</html>

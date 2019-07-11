@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/Public/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/Public/admin/css/coupon/coupon.css">
+    <script type="text/javascript" src="__ROOT__/Public/layui/layui.js"></script>
+    <style type="text/css">
+    </style>
+    <title>Title</title>
+</head>
+<body style="padding: 10px">
+<div class="header">
+    <span style="color: dodgerblue;">优惠卷绑定</span>
+    <i class="layui-icon" style="float: right;margin-right: 20px;margin-top: 10px">&#xe666;</i>
+    <button class="layui-btn layui-btn-normal layui-btn-sm"  style="margin-top: 3px;" onclick="add()">新增优惠卷互换</button>
+    <hr>
+</div>
+<table class="layui-table">
+    <!--<thead>-->
+    <tr>
+        <th style="width: 25px">ID</th>
+        <td>线上优惠卷</td>
+        <td>线下优惠卷</td>
+        <td>操作</td>
+    </tr>
+    <!--</thead>-->
+    <tbody>
+    <volist name="select" id="vo">
+    <tr>
+        <td>{$vo.id}</td>
+        <td>{$vo.online}</td>
+        <td>{$vo.offline}</td>
+        <!--<td><select class="select"><option value="volvo">{$vo.online}</option></select></td>-->
+        <!--<td><select class="select"><option value="volvo">{$vo.offline}</option></select></td>-->
+        <td width="135px">
+            <!--<button class="layui-btn layui-btn-primary layui-btn-sm" href="javascript:;" onclick="edit()">编辑</button>-->
+            <if condition="$vo.status == 0">
+            <button class="layui-btn layui-btn-normal layui-btn-sm" href="javascript:;" onclick="match({$vo.id})">关联互换</button>
+            <button class="layui-btn layui-btn-danger layui-btn-sm" href="javascript:;" onclick="del({$vo.id})">删除</button>
+            </if>
+            <if condition="$vo.status == 1">
+                <button class="layui-btn layui-btn-primary layui-btn-sm" href="javascript:;" onclick="depart({$vo.id})">解除关联</button>
+            </if>
+        </td>
+    </tr>
+    </volist>
+    </tbody>
+</table>
+<div style="text-align: center;margin-right: 70px;margin-top: 25px" class="pages">
+    {$page}
+</div>
+<script src="__ROOT__/Public/admin/js/Coupon/coupon.js?version={$v}"></script>
+</body>
+</html>

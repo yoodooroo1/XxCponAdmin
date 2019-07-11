@@ -1,0 +1,10 @@
+
+Runtime/
+
+# 忽略.idea
+.idea/
+
+# 忽略.svn
+.svn/
+
+*.log

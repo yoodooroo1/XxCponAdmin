@@ -1,0 +1,51 @@
+<script type="x-template" id="temp_upload_file">
+  <!--region 模版-->
+  <input type="file" v-upload-file="file" v-bind="$attrs" title=" "/>
+  <!--endregion-->
+</script>
+<!-- JS -->
+<script>
+  var TEMP_UPLOAD_FILE = {
+    template: '#temp_upload_file',
+    // 使用该组件式 v-model="xxx" 这里统一命名xx为timeStr
+    model: {
+      prop: 'url',
+      event: 'change',
+    },
+    props: {
+      url: String,
+    },
+    computed: {},
+    // 指令中修改了数据后 这里进行监听 并触发input事件,通知父组件 完成v-model
+    watch: {
+      'file.url': function (newValue) {
+        this.$emit('change', newValue)
+      }
+    },
+    data: function () {
+      return {
+        file: {
+          url: this.url,
+        }
+      }
+    },
+    mounted: function () {
+    },
+    methods: {
+    },
+    directives: {
+      uploadFile: {
+        inserted: function (el, binding) {
+          $(el).unbind('change')
+          $(el).change(function () {
+            publicObj.upload({
+              el: el,
+            }, function (url) {
+              binding.value.url = url;
+            });
+          })
+        }
+      }
+    }
+  }
+</script>

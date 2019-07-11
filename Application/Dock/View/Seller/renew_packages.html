@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>套餐续费</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Operate/css/style.css">
+</head>
+<body class="b_fff">
+<!--<div class="header">
+    <ul>
+        <li><a href="javascript:history.go(-1)" class="fl">
+            <img class="img_back" src="./images/back.png">套餐续费</a>
+        </li>
+    </ul>
+</div>-->
+<div class="main">
+    <div class="packageInfo">
+        <div class="packageImg">
+            <img src="__PUBLIC__/Operate/images/storeLogo.png">
+        </div> 
+        <div class="packageMsg">
+            <p><span class="packageName mr_10"> {$info.store_name}</span><span>{$info.name}</span></p>
+            <p class="expirationDate">套餐到期时间：{$info.vip_endtime|date="Y-m-d",###}</p>
+        </div> 
+    </div>
+    <div class="selectTime">
+        <ul>
+            <li><a class="active" onclick='selectTime(this,1,"{$info.market_price}","{$info.next_endtime1}")'>一年</a></li>
+            <li><a onclick='selectTime(this,2,"{$info.market_price2}","{$info.next_endtime2}")'>两年</a></li>
+            <li><a onclick='selectTime(this,3,"{$info.market_price3}","{$info.next_endtime3}")'>三年</a></li>
+        </ul>
+    </div>
+    <div class="ta_c"> 
+        <p class="color_orange">
+            您目前套餐为{$info.name}，续费<span class="forTime">1</span>年需支付<span class="forPrice">{$info.market_price}</span>元
+        </p>
+        <p class="expirationDate">支付后套餐到期时间：<span class="forEndTime">{$info.next_endtime1}</span></p>
+    </div>
+    <a class="ta_c toPay">
+        <img src="__PUBLIC__/Operate/images/wechat.png" >
+        立即支付 
+    </a> 
+    <div class="ta_c f_14" style="display:none">
+        <p class="tableTitle">VIP资费详情</p>
+        <table class="table b_fff tablePackage" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr class="ta_c color_orange">
+                <td></td>
+                <td>VIP1</td>
+                <td>VIP2</td>
+                <td>VIP3</td>
+                <td>VIP4</td>
+                <td>VIP5</td>
+            </tr>
+            <tr class="ta_c">
+                <td class="color_orange">单价/年</td>
+                <td>免费</td>
+                <td>200元</td>
+                <td>500元</td>
+                <td>1000元</td>
+                <td>5000元</td>
+            </tr>
+            <tr class="ta_c">
+                <td class="color_orange">会员数量</td>
+                <td>50个</td>
+                <td>100个</td>
+                <td>200个</td>
+                <td>500个</td>
+                <td>2000个</td>
+            </tr>
+            <tr class="ta_c">
+                <td class="color_orange">商品数量</td>
+                <td>200个</td>
+                <td>400个</td>
+                <td>600个</td>
+                <td>1000个</td>
+                <td>5000个</td>
+            </tr>
+            <tr class="ta_c">
+                <td class="color_orange">企业员工</td>
+                <td>2个</td>
+                <td>3个</td>
+                <td>4个</td>
+                <td>5个</td>
+                <td>6个</td>
+            </tr>
+            <tr class="ta_c">
+                <td class="color_orange">二维码库</td>
+                <td>2个</td>
+                <td>3个</td>
+                <td>4个</td>
+                <td>5个</td>
+                <td>6个</td>
+            </tr>
+            <tr class="ta_c">
+                <td class="color_orange">广告位</td>
+                <td>无</td>
+                <td>3个</td>
+                <td>4个</td>
+                <td>5个</td>
+                <td>6个</td>
+            </tr>
+            </tbody>
+        </table> 
+    </div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/Operate/js/jquery-2.1.3.js"></script>
+<script>
+	AGE_LIMIT = 1;
+    //选择时间
+    function selectTime(obj,time_,price_,endtime_) {
+	    AGE_LIMIT = time_;
+        $('.forTime').html(time_);
+        $('.forPrice').html(price_); 
+        $('.forEndTime').html(endtime_);
+        $('.selectTime li a').removeClass('active');
+        $(obj).addClass('active');
+    }
+	
+	$(".toPay").click(function(){
+		var url = "{:U('Seller/renew_wxpay',array('package_id'=>$info['package_id']))}"+"&age_limit="+AGE_LIMIT;
+		window.location.href= url;
+	});
+
+</script>
+</body>
+</html>

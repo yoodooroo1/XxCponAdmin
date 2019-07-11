@@ -1,0 +1,17 @@
+<php>if (!empty($goodsHtml)) {</php>
+<div class="design-preview-item">
+  <php>
+    if ($module['content']['list_style'] == 2) {
+    $classSwiper = 'swiper-goods-list';
+    $pageHtml = '<div class="swiper-button-prev"></div><div class="swiper-button-next"></div>';
+    }
+  </php>
+  <div class="design-preview-controller {$classSwiper}">
+    <ul
+      class="cap-goods-list swiper-wrapper m10-list_style__{$module['content']['list_style']} m10-show_style__{$module['content']['show_style']}">
+      {$goodsHtml}
+    </ul>
+    {$pageHtml}
+  </div>
+</div>
+<php>}</php>

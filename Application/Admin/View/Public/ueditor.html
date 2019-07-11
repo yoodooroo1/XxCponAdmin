@@ -1,0 +1,34 @@
+<script src="__ROOT__/Public/common/plug-in/ueditor/ueditor.config.js"></script>
+<script src="__ROOT__/Public/common/plug-in/ueditor/ueditor.all.js"></script>
+<script>
+  var ue = {};
+  function UE_INIT (UE_EL) {
+    UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
+    UE.Editor.prototype.getActionUrl = function (action) {
+      if (action === 'uploadimage' || action === 'uploadscrawl' || action === 'uploadimage' || action === 'uploadvideo' ||
+        action === 'uploadfile') {
+        //return '{$uploadUrl}' + '?action=' + action;
+        return "upload.php?action=" + action;
+      } else {
+        return this._bkGetActionUrl.call(this, action);
+      }
+    };
+    // 实例化ue实例
+    ue = UE.getEditor(UE_EL, {
+      serverUrl: "{:U('Public/uEditor')}",
+      elementPathEnabled: false, // 禁止元素路径显示
+      wordCount: false, // 禁止字数统计
+     // zIndex: 999999
+    });
+    // 初始化
+    ue.ready(function () {
+      // 设置参数
+      ue.execCommand('serverparam', {
+        'type': 3,
+        'from': 'ueditor',
+        'domain': window.location.protocol + '//' + window.location.host
+      });
+      ue.setHeight(600)
+    });
+  }
+</script>

@@ -1,0 +1,41 @@
+<php>if (!empty($news)) {</php>
+<php>$url = getLinkTypeUrl($module['content']['news_link']['action'], $module['content']['news_link']['action_data'], $storeInfo);</php>
+<div class="design-preview-item">
+  <div class="design-preview-controller">
+    <!--模板1-->
+    <php>if ($module['content']['selected_module'] == 0) {</php>
+    <div class="cap-news cap-news__0">
+      <a href="{$url}">
+        <div class="news-title lineOne">{$news['title']}</div>
+        <p class="color-grey98 font-12">文 / {$news['author']}</p>
+        <div class="news-img bg-img"><img data-src="{$module['content']['news_link']['img_url']}"></div>
+        <div class="news-content lineOne">{$news['news_desc']}</div>
+        <div>
+          <span class="color-grey98 font-12">
+            <php>echo date('m月d日', $news['addtime']);</php>
+          </span>
+          <span class="fr">
+            <i class="myicon-collect-grey">
+              <font><php>echo $news['collect_num'] > 0 ? $news['collect_num'] : '';</php></font>
+            </i>
+            <i class="myicon-edit-grey"></i>
+          </span>
+        </div>
+      </a>
+    </div>
+    <!--模板2-->
+    <php>} elseif ($module['content']['selected_module'] == 1) {</php>
+    <div class="cap-news cap-news__1">
+      <a href="{$url}">
+        <div class="news-img bg-img"><img data-src="{$module['content']['news_link']['img_url']}?_400x155.2x2"></div>
+        <div class="news-title lineOne">{$news['title']}</div>
+        <p class="color-grey98 font-12">{$news['author']}</p>
+        <p class="color-grey98 font-12">
+          <php>echo date('Y年m月d日', $news['addtime']);</php>
+        </p>
+      </a>
+    </div>
+    <php>}</php>
+  </div>
+</div>
+<php>}</php>

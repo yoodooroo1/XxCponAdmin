@@ -1,0 +1,58 @@
+<php>foreach($goodsList as $key => $goods) {</php>
+<li class="swiper-slide">
+  <a href="{:U('Goods/goods_detail', array('id'=>$goods['goods_id'],'se'=>$storeId,'f'=>$memberId))}">
+    <!--region 左上角角标-->
+    <php>if ($cornerMarkType > 0) {</php>
+    <i class="corner_mark_type m10-corner_mark__{$cornerMarkType}"></i>
+    <php>}</php>
+    <!--endregion -->
+
+    <!--region 商品图片-->
+    <div class="cap-goods-list__img bg-img">
+      <img data-src="{$goods['main_img']}?_400x400x2">
+    </div>
+    <!--endregion-->
+
+    <!--region 商品名称和价格的区域 -->
+    <php>if ($showGoodsName == 1 || $showGoodsPrice > 0) {</php>
+    <div class="cap-goods-list__info">
+      <!--region 商品名称 -->
+      <php>if ($showGoodsName == 1) {</php>
+      <p class="goods-name">{$goods['goods_name']}</p>
+      <php>}</php>
+      <!--endregion -->
+
+      <!--region 商品价格-->
+      <php>if ($showGoodsPrice > 0) {</php>
+      <php>if ($buyBtnStyle == 0 && $showGoodsName == 0) $priceClass = 'ta_c';</php>
+      <p class="goods-price {$priceClass}">
+        <php>if (!empty($priceHideDesc)) {</php>
+        <span>{$priceHideDesc}</span>
+        <php>} else {</php>
+        <span>{$storeInfo['currency_symbol']}{$goods['new_price']}</span>
+        <php>if ($listStyle == 0 && $showGoodsPrice == 1 && $goods['goods_price'] != $goods['new_price']) {</php>
+        <del>{$storeInfo['currency_symbol']}{$goods['goods_price']}</del>
+        <php>}</php>
+        <php>}</php>
+      </p>
+      <php>}</php>
+      <!--endregion-->
+    </div>
+    <php>}</php>
+    <!--endregion-->
+
+    <!--region 购买按钮-->
+    <php>if ($buyBtnStyle > 0 && ($showGoodsName == 1 || $showGoodsPrice > 0)) {</php>
+    <div class="m10-buy_btn m10-buy_btn__{$buyBtnStyle}">
+      <php>if ($buyBtnStyle == 2) {</php>
+      <font>购买</font>
+      <php>} elseif ($buyBtnStyle == 3) {</php>
+      <font>马上抢</font>
+      <php>}</php>
+    </div>
+    <php>}</php>
+    <!--endregion-->
+
+  </a>
+</li>
+<php>}</php>

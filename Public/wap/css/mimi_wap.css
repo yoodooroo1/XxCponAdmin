@@ -1,0 +1,22 @@
+html,body{min-width: 300px}
+*{margin: 0;padding: 0;font-family:"Microsoft Yahe";text-decoration: none;box-sizing: border-box}
+a:active{outline: none;}
+
+/*region 绑定手机号*/
+button, button:active, a, a:active, input{outline: none;-webkit-tap-highlight-color:rgba(255,0,0,0);}
+.bind-tel{background-image: linear-gradient(90deg, #482511 0%, #714a88 0%, #996eff 0%, #7c5eff 100%), linear-gradient(#ffa3a3, #ffa3a3);background-blend-mode: normal, normal;text-align: center;height: 100%;}
+.bind-tel .bind-bg{height: 100%;display: flex;justify-content: center;align-items: center}
+.bind-tel .bind-body{background-color: #ffffff;box-shadow: 0px 0px 18px 0px rgba(15, 1, 23, 0.1);border-radius: 15px;width: 340px;display: inline-block;}
+.bind-tel .bind-data .logo-img{width: 75px;height: auto;padding: 40px 0}
+.bind-tel .bind-data .bind-input>div{padding: 0 25px;box-sizing: border-box;margin-bottom: 15px;position: relative;}
+.bind-tel .bind-data .bind-input>div>input{height: 50px;border-radius: 25px;border:none;width: 100%;font-size: 13px;padding-left: 50px;outline: none}
+.bind-tel .bind-data .bind-input>div>input::placeholder{color: #b0b0b0}
+.bind-tel .bind-data .bind-input>div.input-tel>input{background:#f6f6f6 url("../images/bind_tel/bd_shouji.png")20px center no-repeat;background-size: 15px auto;}
+.bind-tel .bind-data .bind-input>div.input-code>input{background:#f6f6f6 url("../images/bind_tel/bd_yanzheng.png")20px center no-repeat;background-size: 15px auto;padding-right: 50px}
+.bind-tel .bind-data .bind-input>div.input-code .code-btn{background-image: linear-gradient(90deg, #482511 0%, #714a88 0%, #996eff 0%, #7c5eff 100%), linear-gradient(#000000, #000000);background-blend-mode: normal, normal;border-radius: 16px;text-align: center;height: 32px;border: none;line-height: 33px;font-size: 13px;color: #FFFFff;padding: 0 10px;position: absolute;top: 9.5px;right: 35px;z-index: 1;cursor: pointer;}
+.bind-tel .bind-data .bind-input>div.input-code .code-btn.disabled{background-image: linear-gradient(#d0d0d0, #d0d0d0), linear-gradient(#000000, #000000);background-blend-mode: normal, normal;}
+.bind-tel .bind-data .bind-submit{padding: 40px 20px 50px 20px!important;box-sizing: border-box}
+.bind-tel .bind-data .bind-submit button{background-image: linear-gradient(90deg, #482511 0%, #714a88 0%, #996eff 0%, #7c5eff 100%), linear-gradient(#f6f6f6, #f6f6f6);background-blend-mode: normal, normal;box-shadow: 0px 0px 18px 0px rgba(127, 96, 255, 0.4);border-radius: 25px;height: 50px;line-height: 50px;width: 100%;border: none;color: #FFFFff;font-size: 17px;}
+.bind-tel .bind-result{padding: 60px 0}
+.bind-tel .bind-result p{font-size: 16px;margin: 10px 0;color: #000000}
+/*endregion*/

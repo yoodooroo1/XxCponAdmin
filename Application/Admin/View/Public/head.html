@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en"><!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8"/>
+    <!--{:C('site_name')}商家后台管理登陆--> 
+    <title>{:L("PC_ADMIN_TITLE",array("name"=>C('site_name')))}</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="__ROOT__/Public/media/css/bootstrap.min.css?version={$v}" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/Public/media/css/bootstrap-responsive.min.css?version={$v}" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/Public/media/css/style-metro.css?version={$v}" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/Public/media/css/style.css?version={$v}" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/Public/media/css/style-responsive.css?version={$v}" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/Public/media/css/default.css?version={$v}" rel="stylesheet" type="text/css" id="style_color"/>
+    <link href="__ROOT__/Public/media/css/uniform.default.css?version={$v}" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/Public/media/css/search.css?version={$v}" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/Public/media/css/error.css?version={$v}" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/Public/media/css/invoice.css?version={$v}" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/Public/media/css/inbox.css?version={$v}" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/Public/media/css/bootstrap-fileupload.css?version={$v}" rel="stylesheet" type="text/css"/>
+    <link type="text/css" rel="stylesheet" href="__ROOT__/Public/media/css/layout.css?v={$v}"/><!--主内容框架-->
+    <link href="__ROOT__/Public/font-awesome-4.7.0/css/font-awesome.min.css?version={$v}" rel="stylesheet">
+    <link href="__ROOT__/Public/media/icon/admin_menu/iconfont.css?version={$v}" rel="stylesheet">
+    <link href="__ROOT__/Public/admin2/icon2/icon2.css?version={$v}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/admin2/css/admin2.css?v={$v}"><!--新版本编辑样式-->
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <link rel="shortcut icon" href="__ROOT__/Public/media/images/xunxinLogo.ico" type="/favicon.ico"/>
+
+    <include file="Public:lang"/>
+    <script src="__ROOT__/Public/media/js/jquery-2.1.3.min.js?version={$v}"></script>
+
+    <script type="text/javascript" src="__ROOT__/Public/media/js/angular.min.js?version={$v}"></script>
+    <script type="text/javascript" src="__ROOT__/Public/media/js/angular-cookies.min.js?version={$v}"></script>
+    <!--<script type="text/javascript" src="__ROOT__/Public/media/js/angular-infinite-scroll.js"></script>-->
+    <script type="text/javascript" src="__ROOT__/Public/media/js/app-by-hjun.js?v={$v}"></script>
+    <script type="text/javascript" src="__ROOT__/Public/wap2/js/common/publicWap.js?v={$v}"></script>
+    <script type="text/javascript">
+        var ROOT = '{$ROOT}'; 
+        /*lxq 2017-11-03 左侧菜单栏当前也以及菜单置顶 start*/
+        jQuery(document).ready(function () {
+            var menu_id = $('#page-sidebar-menu li.active').attr('id');
+            if (typeof (menu_id) !== 'undefined' && menu_id !== ''){
+                $("#page-sidebar-menu").scrollTop($("#" + menu_id).offset().top - 50);
+            }
+        })
+        /*lxq 2017-11-03 左侧菜单栏当前也以及菜单置顶 end*/
+
+        function unselectall(thisform) {
+            if (thisform.chkAll.checked) {
+                thisform.chkAll.checked = thisform.chkAll.checked & 0;
+            }
+        }
+
+        function CheckAll(thisform) {
+            for (var i = 0; i < thisform.elements.length; i++) {
+                var e = thisform.elements[i];
+                debugger;
+                if (e.name != "chkAll" && e.disabled != true) {
+                    e.checked = thisform.chkAll.checked;
+                    if (i == 0) alert(e.value);
+                }
+            }
+        }
+
+        function changeSceneType(type_int) {
+            var biztypeId = $('#scenetypeB').val();
+            $.get('?c=scene&a=getSceneTag', {type_int: type_int, biztypeId: biztypeId}, function (data) {
+                if (data.status == 1) {
+                    $('#scenetypeS').html(data.info);
+                }
+            }, 'json');
+        }
+
+    </script>
+</head>
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed" style="height:100%;">
+<!--lxq 2017-12-29 ie版本判断 start-->
+<!--对不起，您正在使用的是过时的浏览器.-->
+<!--请升级您的浏览器（IE8+，或者是火狐、谷歌、Opera、Safari等现代浏览器），以改进您的用户体验！-->
+<!--[if lt IE 9]>
+<div class="lt-ie8-bg">
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser.</p>
+    <p>Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <p class="browsehappy">{:L("BROWSE_NONSUPPORT_TIP1")}</p>
+    <p>{:L("BROWSE_NONSUPPORT_TIP2")}</p>
+</div>
+<style>
+    body{margin: 0 auto;}
+    .lt-ie8-bg{z-index:1111111;position:absolute;top:0;left:0;right:0;bottom:0;background-color:#333;color:#999;padding:100px 20px;text-align:center;font-size:26px;width: 100%;height: 100%}
+    .lt-ie8-bg p{margin: 50px!important;}
+    .lt-ie8-bg a{color:#f5f5f5;border-bottom:2px solid #fff}
+    .lt-ie8-bg a:hover{text-decoration:none}
+    #page-body-wrap{display:none;}
+</style>
+<![endif]-->
+<!--lxq 2017-12-29 ie版本判断 start-->
+
+<!--====================顶部开始====================-->
+<div class="header navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner" style="background-color: #fff!important;position: fixed;">
+        <div class="container-fluid" style="height: 42px">
+
+            <!--========商家后台管理LOGO开始========-->
+            <a class="brand" href="admin.php" style="padding:5px 0">
+                <img src="__ROOT__/Public/media/image/admin2/logo.png" alt="logo" style="    margin: 7px 0 11px 50px;"/>
+            </a>
+            <span style="margin-left:1.6rem;">
+			    <b style="color:#57d0cb;">|</b>
+			    <span style="line-height: 42px;padding-left: .4rem;font-size:.9rem" id="htmlTitle"><!--首页--></span>
+            </span>
+            <!--========商家后台管理LOGO结束========-->
+
+            <!--========菜单切换按钮开始========-->
+            <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse"
+               style="padding:.5rem .6rem .7rem .6rem;margin-top: 2px;vertical-align: middle;
+               z-index: 99;position: fixed;top: 0;right: 1px;">
+                <img src="__ROOT__/Public/media/image/menu-toggler.png" alt=""/>
+            </a>
+            <!--========菜单切换按钮结束========-->
+
+            <!--========右上脚商家账号设置开始========-->
+            <ul class="nav pull-right">
+                <li class="dropdown user" style="position: relative">
+                    <a href="#" class="dropdown-toggle adminInfo" data-toggle="dropdown"
+                       title="{$STORE.store_name}">
+                        <img alt="" src="{$STORE.store_label} " style="width:2rem;height:2rem"/>
+                        <span class="username">{$STORE.store_name}</span>
+                        <i class="icon-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu" style="position: absolute">
+                        <li>
+                            <a href="admin.php?c=sys&a=edit"><i class="icon-calendar"></i> {:L("CHANGE_PWD")}<!--修改密码--></a>
+                        </li>
+                        <li>
+                            <a href="admin.php?c=auth&a=logout"><i class="icon-share"></i>{:L('LOGOUT')}<!--退出--></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!--========右上脚商家账号设置结束========-->
+
+        </div>
+    </div>
+</div>
+<!--====================顶部结束====================-->
+
+
+<!--====================侧边栏开始====================-->
+<div class="page-container row-fluid">
+    <div class="page-sidebar nav-collapse collapse"
+         style="position:fixed;z-index: 999; top:42px; left:0; height:calc(100% - 75px)!important; height:-webkit-calc(100% - 75px)!important;height:-moz-calc(100% - 75px)!important;box-sizing:border-box; overflow:hidden;background: #fff;color: #000;border-top: 6px solid #EFF0F4;">
+        <ul class="page-sidebar-menu" id="page-sidebar-menu"
+            style="position:relative; margin-bottom:60px; height:100%; overflow-y:auto; overflow-x:hidden;">
+
+            <!--========侧边商家名称LOGO========-->
+            <li style="position:absolute; top:4px;" id="logo">
+                <a href="javascript:;" class="logoA">
+                    <img src="{$STORE.store_label}" class="xunLogo">
+                    <span class="title lineOne shopName">{$STORE.store_name}</span><span
+                        class="selected"></span>
+                </a>
+            </li>
+            <!--========侧边商家名称LOGO========-->
+
+            <!--========菜单伸缩========-->
+            <li style="z-index:88;margin-bottom: 15px" id="hidden-type" forW="b">
+                <div class="sidebar-toggler hidden-phone"></div>
+            </li>
+            <!--========菜单伸缩========-->
+
+            <!--========管理首页========-->
+            <li class="{$ui['index']|default=''}" id="menu_index">
+                <a href="admin.php">
+                    <i class="icon-home"></i>
+                    <span class="title">{:L('ADMIN_HOME')}<!--管理首页--></span>
+                </a>
+            </li>
+            <!--========管理首页========-->
+
+            <!--========菜单栏 Common-function-getAllMenu 再基类中进行筛选========-->
+            <foreach name="menu" item="vo" key="k">
+                <li class="{$vo['class']|default=''}" id="{$k}">
+                    <a href="javascript:;">
+                        <i class="{$vo['icon']}"></i>
+                        <span class="title">{$vo['name']}</span>
+                        <i class="fa fa-angle-right menu-angle"></i>
+                    </a>
+                    <ul class="sub-menu">
+                        <foreach name="vo['sub_menu']" item="item">
+                            <li class="{$item['class']|default=''}">
+                                <a href='{:U("$item[control]/$item[act]")}'>{$item['name']}</a>
+                            </li>
+                        </foreach>
+                    </ul>
+                </li>
+            </foreach>
+            <!--========菜单栏 Common-function-getAllMenu 再基类中进行筛选========-->
+        </ul>
+    </div>
+</div>
+<!--========================侧边栏结束============================-->
+
+<!-- BEGIN PAGE -->
+<div class="page-content">
+
+    <div id="html_hm" style="position: fixed;z-index:9999;left: 60px;display: none">
+
+    </div>
+    <script>
+        jQuery(document).ready(function () {
+            App.init();
+        });
+
+    </script>
+    <script>
+        $(".nav li").click(function () {
+            $this = $(this);
+            var thisVal = $this.hasClass("open");
+            if (thisVal) {
+                $this.removeClass();
+            } else {
+                $this.addClass("open");
+                $(".nav li").removeClass("open");
+                //console.log("open");
+            }
+        });
+    </script>
+    <script>
+        //判断哪个菜单open
+        $('.page-sidebar-menu li').find('.menu-angle').removeClass('fa-angle-down').addClass('fa-angle-right');
+        $('.page-sidebar-menu li.active').find('.menu-angle').removeClass('fa-angle-right').addClass('fa-angle-down');
+        $('.page-sidebar-menu li').click(function () {
+            $('.page-sidebar-menu li').find('.menu-angle').removeClass('fa-angle-down').addClass('fa-angle-right');
+            var is_open = $(this).find('.sub-menu').css('display');//上次的状态
+            if (is_open == 'none') {
+                $(this).find('.menu-angle').removeClass('fa-angle-right').addClass('fa-angle-down');
+            }
+        })
+        //收缩展开菜单
+        $('#hidden-type').click(function () {
+            var forW=$(this).attr('forW');
+            if(forW=='b'){
+                $(this).attr('forW','s');
+                $('ul.page-sidebar-menu > li > a i.menu-angle').hide();
+            }
+            else{
+                $(this).attr('forW','b');
+                $('ul.page-sidebar-menu > li > a i.menu-angle').show();
+            }
+        })
+
+        $('ul.page-sidebar-menu > li').hover(function () {
+            var forW=$('#hidden-type').attr('forW');
+            if(forW=='s'){
+                var html_hm='<ul>'+$(this).find('ul').html()+'</ul>';
+                var top_=$(this).offset().top;
+                //$('#html_hm').css('top',top_-50).html(html_hm).show();
+            }
+        },function () {
+            //html_hm='';
+            //$('#html_hm').hide();
+        })
+    </script>
+

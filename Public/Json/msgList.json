@@ -1,0 +1,57 @@
+{
+  "code": 200,
+  "msg": "",
+  "data": {
+    "total": "1",
+    "list": [
+      {
+        "id": "1",
+        "user_img": "https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4139100638,3039793235&fm=173&app=25&f=JPEG?w=218&h=146&s=1BBCF3A3A027A6ED1211E01303003042",
+        "user_nickname": "用户昵称",
+        "time": "2018-01-12",
+        "content": "消息摘要",
+        "status": "1",
+        "msg_record": [
+        ]
+      },
+      {
+        "id": "5",
+        "user_img": "https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4139100638,3039793235&fm=173&app=25&f=JPEG?w=218&h=146&s=1BBCF3A3A027A6ED1211E01303003042",
+        "user_nickname": "用户昵称",
+        "time": "2018-01-12",
+        "content": "消息摘要",
+        "status": "2",
+        "msg_record": [
+          {
+            "msg_id": "1",
+            "msg_role_type": "2",
+            "msg_role_name": "客服101",
+            "msg_content": "亲，你有什么问题，我可以帮助您的",
+            "time": "2018-01-12"
+          },
+          {
+            "msg_id": "2",
+            "msg_role_type": "1",
+            "msg_role_name": "用户昵称",
+            "msg_content": "我怎么充值会员？",
+            "time": "2018-01-12"
+          },
+          {
+            "msg_id": "3",
+            "msg_role_type": "2",
+            "msg_role_name": "客服101",
+            "msg_content": "亲，你有什么问题，我可以帮助您的",
+            "time": "2018-01-12"
+          },
+          {
+            "msg_id": "4",
+            "msg_role_type": "2",
+            "msg_role_name": "客服101",
+            "msg_content": "亲，你有什么问题，我可以帮助您的",
+            "time": "2018-01-12"
+          }
+        ]
+      }
+    ]
+  }
+}

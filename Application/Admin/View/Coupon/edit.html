@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/Public/layui/css/layui.css">
+    <script type="text/javascript" src="__ROOT__/Public/layui/layui.js"></script>
+    <title></title>
+</head>
+<body style="padding: 10px">
+<form class="layui-form">
+    <input type="hidden" name="id" value="{$data.item.id}">
+    <div class="layui-form-item">
+        <label class="layui-form-label"style="width: 120px">线上优惠卷：</label>
+        <div class="layui-input-inline">
+            <select name="gid">
+                <!--<option value=0></option>-->
+                <!--{volist name="data.groups" id="vo"}-->
+                <!--<option value="{$vo.gid}" {$vo.gid == $data.item.gid ? 'selected' : ''}>{$vo.title}</option>-->
+                <!--{/volist}-->
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"style="width: 120px">线下优惠卷：</label>
+        <div class="layui-input-inline">
+            <select name="gid">
+                <!--<option value=0></option>-->
+                <!--{volist name="data.groups" id="vo"}-->
+                <!--<option value="{$vo.gid}" {$vo.gid == $data.item.gid ? 'selected' : ''}>{$vo.title}</option>-->
+                <!--{/volist}-->
+            </select>
+        </div>
+    </div>
+
+    <!--<div class="layui-form-item">-->
+    <!--<label class="layui-form-label">用户名</label>-->
+    <!--<div class="layui-input-inline">-->
+    <!--<input type="text" class="layui-input" name="username" value="{$data.item.username}" {$data.item.id>0?'readonly':''}>-->
+    <!--</div>-->
+    <!--</div>-->
+
+</form>
+<div class="layui-form-item">
+    <div class="layui-input-block">
+        <button class="layui-btn-normal layui-btn" style="margin-left: 80px;margin-top: 8px" onclick="save()">保存修改</button>
+    </div>
+</div>
+<script src="__ROOT__/Public/admin/js/coupon/coupon.js?version={$v}"></script>
+</body>
+</html>

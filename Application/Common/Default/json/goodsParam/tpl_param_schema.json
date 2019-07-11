@@ -1,0 +1,44 @@
+{
+  "type": "array",
+  "uniqueItems": true,
+  "items": {
+    "type": "array",
+    "properties": {
+      "param_id": {
+        "type": [
+          "string",
+          "integer"
+        ],
+        "required": true
+      },
+      "param_name": {
+        "type": "string",
+        "required": true,
+        "pattern": "\\S+"
+      },
+      "param_desc": {
+        "type": "string"
+      },
+      "param_sort": {
+        "type": [
+          "string",
+          "integer"
+        ],
+        "required": true
+      },
+      "is_show": {
+        "type": [
+          "string",
+          "integer"
+        ],
+        "required": true,
+        "enum": [
+          0,
+          1,
+          "0",
+          "1"
+        ]
+      }
+    }
+  }
+}
