@@ -96,6 +96,7 @@ function depart(id) {
         });
 }
 
+//同步信息
 function fresh() {
     layui.jquery.post('/admin/coupon/fresh',function(res){
         if(res.code>0){
@@ -107,6 +108,7 @@ function fresh() {
     },'json');
 
 }
+
 //修改信息
 // function edit() {
 //     layer.open({
@@ -118,6 +120,7 @@ function fresh() {
 //         content: '/admin.php?m=Admin&c=Coupon&a=edit'
 //     });
 // }
+
 //添加或修改信息
 // function save() {
 //     layer.confirm('确认新增优惠卷互换',
