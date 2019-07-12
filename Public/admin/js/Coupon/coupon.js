@@ -78,7 +78,7 @@ function match(id){
         });
 }
 
-//解除关联
+//解除关
 function depart(id) {
     layer.confirm('您确定要解除吗?',
         {   title:'解除关联',
