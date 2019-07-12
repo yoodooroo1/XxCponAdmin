@@ -10,7 +10,7 @@ namespace Admin\Controller;
 
 
 
-use Think\Db;
+use Think\Model;
 
 class CouponController extends AdminController
 {
@@ -98,7 +98,11 @@ class CouponController extends AdminController
         }
     }
 
-
+    //同步信息
+    public function fresh(){
+        exit(json_encode(array('code' => 0, 'msg' => '同步成功')));
+    }
+    //分页处理
     function getpage($count, $pagesize = 10) {
         $p = new \Think\Page($count, $pagesize);
         $p->setConfig('header', '<li class="rows">共<b>%TOTAL_ROW%</b>条记录&nbsp;第<b>%NOW_PAGE%</b>页/共<b>%TOTAL_PAGE%</b>页</li>');
@@ -109,5 +113,64 @@ class CouponController extends AdminController
         $p->setConfig('theme', '%FIRST%%UP_PAGE%%LINK_PAGE%%DOWN_PAGE%%END%%HEADER%');
         $p->lastSuffix = false;//最后一页不显示为总页数
         return $p;
+    }
+
+    //
+    function match_s(){
+        $data =$this->req;
+        $log_str = "[Admin->coupon->match]  "."\n". "post_data:".json_encode($data);
+        CouponAdminLogs($log_str);
+        Model::startTrans();
+        try{
+            $coupon_info = M('coupon')->where(array())->find();
+            $post_info[''] = $coupon_info[''];
+            $headers = array("Content-Type : application/json;charset=UTF-8");
+            $return_data = httpRequest('http://erpds_test.duinin.com/Dock.php?c=index&a=onlineCouponToOffline',
+                'POST',$post_info,$headers);
+            $log_str = "[Admin->coupon->match]  "."\n". "return_data:".json_encode($return_data);
+            CouponAdminLogs($log_str);
+            if(!$coupon_info['match_status'] == 0) {
+                exit(json_encode(array('code' => 1, 'msg' => '此优惠卷已关联过')));
+            }
+            if ($return_data['code'] == 200) {
+                $m['id'] = $data['id'];
+                $m['match_status'] = 1;
+                $m['nid'] = '';
+                M('coupon')->where($m)->save();
+
+            }else{
+                exit(json_encode(array('code' => 1, 'msg' => '关联失败')));
+            }
+            Model::commit();
+        }catch (\Exception $e){
+            Model::rollback();
+        }
+    }
+
+    function depart_s(){
+        $data = $this->req;
+        $log_str = "[Admin->coupon->depart]  "."\n". "post_data:".json_encode($data);
+        CouponAdminLogs($log_str);
+        Model::startTrans();
+        try{
+            $coupon_info = M('')->where(array())->find();
+            $post_info[''] = $coupon_info[''];
+            $headers = array("Content-Type : application/json;charset=UTF-8");
+            $return_data = httpRequest('',
+                'POST',$post_info,$headers);
+            $log_str = "[Admin->coupon->depart]  "."\n". "return_data:".json_encode($return_data);
+            CouponAdminLogs($log_str);
+            if(!$coupon_info['match_status'] == 1) {
+                exit(json_encode(array('code' => 1, 'msg' => '此优惠卷已关联过')));
+            }
+            if ($return_data['code'] == 200) {
+
+            }else{
+                exit(json_encode(array('code' => 1, 'msg' => '关联失败')));
+            }
+            Model::commit();
+        }catch (\Exception $e){
+            Model::rollback();
+        }
     }
 }
