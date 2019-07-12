@@ -102,6 +102,7 @@ class CouponController extends AdminController
     public function fresh(){
         exit(json_encode(array('code' => 0, 'msg' => '同步成功')));
     }
+
     //分页处理
     function getpage($count, $pagesize = 10) {
         $p = new \Think\Page($count, $pagesize);
