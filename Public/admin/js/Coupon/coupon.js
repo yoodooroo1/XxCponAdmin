@@ -96,7 +96,17 @@ function depart(id) {
         });
 }
 
+function fresh() {
+    layui.jquery.post('/admin/coupon/fresh',function(res){
+        if(res.code>0){
+            layer.alert(res.msg,{icon:2});
+        }else{
+            layer.msg(res.msg);
+            setTimeout(function(){parent.window.location.reload();},1000);
+        }
+    },'json');
 
+}
 //修改信息
 // function edit() {
 //     layer.open({
