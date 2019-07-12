@@ -84,7 +84,7 @@ class CouponController extends AdminController
         }
     }
 
-    ///解除优惠互换
+    //解除优惠互换
     public function depart(){
         $data = $this->req;
         $log_str = "[Admin->coupon->depart]  "."\n". "post_data:".json_encode($data);
