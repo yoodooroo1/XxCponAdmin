@@ -21,21 +21,21 @@
         </div>
     </div>
 
-    <!--<div class="layui-form-item">-->
-        <!--<label class="layui-form-label"style="width: 120px">线下优惠卷：</label>-->
-        <!--<div class="layui-input-inline">-->
-            <!--<select name="online" id="s2">-->
-                <!--<option value="">请选择线下优惠卷</option>-->
-                <!--<volist name="data.lists" id="vo">-->
-                    <!--<option value="{$vo.offline}" >{$vo.offline}</option>-->
-                <!--</volist>-->
-            <!--</select>-->
-        <!--</div>-->
-    <!--</div>-->
+    <div class="layui-form-item">
+        <label class="layui-form-label"style="width: 120px">线下优惠卷：</label>
+        <div class="layui-input-inline">
+            <select name="offline" id="s2">
+                <option value="">请选择线下优惠卷</option>
+                <volist name="data.lists" id="vo">
+                    <option value="{$vo.offline}" >{$vo.offline}</option>
+                </volist>
+            </select>
+        </div>
+    </div>
 </form>
 <div class="layui-form-item">
     <div class="layui-input-block">
-        <button  class="layui-btn-normal layui-btn" style="margin-left: 86px;margin-top: 260px" onclick="save()">保存</button>
+        <button  class="layui-btn-normal layui-btn" style="margin-left: 86px;margin-top: 200px" onclick="save()">保存</button>
     </div>
 </div>
 <script src="__ROOT__/Public/admin/js/Coupon/coupon.js?version={$v}"></script>

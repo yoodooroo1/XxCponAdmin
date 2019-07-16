@@ -23,8 +23,14 @@ function add() {
 function save(){
 
     var online = $.trim($('select[name="online"]').val());
+    var offline = $.trim($('select[name="offline"]').val());
 
     if(online==''||online=='请选择线上优惠卷'){
+        layer.alert('请选择线上优惠卷',{icon:2});
+        return;
+    }
+
+    if(offline==''||offline=='请选择线下优惠卷'){
         layer.alert('请选择线上优惠卷',{icon:2});
         return;
     }

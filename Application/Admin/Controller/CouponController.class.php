@@ -42,7 +42,7 @@ class CouponController extends AdminController
         CouponAdminLogs($log_str);
         $m['online'] = $data['online'];
         $m['addtime'] = time();
-        $m['offline'] = $data['online'];
+        $m['offline'] = $data['offline'];
         $res = M('coupon')->add($m);
         if(!$res) {
             exit(json_encode(array('code' => 1, 'msg' => '新增失败')));
@@ -161,8 +161,8 @@ class CouponController extends AdminController
                 'POST',$post_info,$headers);
             $log_str = "[Admin->coupon->depart]  "."\n". "return_data:".json_encode($return_data);
             CouponAdminLogs($log_str);
-            if(!$coupon_info['match_status'] == 1) {
-                exit(json_encode(array('code' => 1, 'msg' => '此优惠卷已关联过')));
+            if(!$coupon_info['match_status'] == 0) {
+                exit(json_encode(array('code' => 1, 'msg' => '此优惠卷未关联过')));
             }
             if ($return_data['code'] == 200) {
 
