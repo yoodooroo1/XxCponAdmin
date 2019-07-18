@@ -14,6 +14,25 @@ use Think\Model;
 
 class CouponController extends AdminController
 {
+    //获取迅信商城优惠卷
+    public function getOnlineCoupons(){
+        $url = 'http://dev-mapi.duinin.com/index.php?act=Coupons&op=syncdata';
+        $post_data['version'] = 0;
+        $post_data['key'] = session('key');
+        $post_data['client'] = 'web';
+        $post_data['user_type'] = 'seller';
+        $post_data['store_id'] = session('store_id');
+        $post_data['comchannel_id'] = 0;
+        $headers = array("Content-Type : text/html;charset=UTF-8");
+        $return_data = httpRequest($url, 'POST', $post_data, $headers);
+        $log_str = "[Admin->Conpon->getOnlineCoupons]  " . " returndata->" . json_encode($return_data) . "\n" .
+            "post_data:" . json_encode($post_data);
+        CouponAdminLogs($log_str);
+        $return_info = json_decode($return_data['data'], true);
+        if (!$return_info) {
+            $this->error("服务器忙...");
+        }
+    }
     //优惠卷清单
     public function index(){
         $coupon = M('coupon');

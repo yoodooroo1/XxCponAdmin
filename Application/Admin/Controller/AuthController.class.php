@@ -27,28 +27,16 @@ class AuthController extends BaseController
             $this->error("页面跳转中", 'admin.php?m=Admin&c=Index&a=index', 0);
         }
         if (IS_POST) {
-
             $req = $this->req;
             $verify = $req['verify'];
+            $username = $req['username'];
             $password = $req['password'];
-            $loginname = $req['username'];
-            // 登录检查
-            $info = $this->loginCheck($loginname, $password, $verify);
-            // 初始化一些信息
-            // 1. 生成登录的token 用以调用接口
-            // 2. 生成 session 信息
-            // 3. 记录登录日志
+            $info = $this->loginCheck($username, $password, $verify);
             $this->init($info);
             $this->success('登录成功', U('Auth/login'));
         }
-
-
-        // 如果有保存密码的话 从cookie里可以获取到值
         $name = cookie('name');
-        $password = cookie('password');
-        // hj 2017年9月13日 14:31:52 去除session 清空
-        // 保证登入界面没有session  如果开了两个窗口 调订单数量接口的时候 会导致清空session 验证码失效
-        // session(null);
+        $password = $req['password'];
         $this->assign('name', $name);
         $this->assign('password', $password);
         $this->display('login');
@@ -65,8 +53,7 @@ class AuthController extends BaseController
 //            addAdminLog('退出', "管理员退出,账号:" . session('loginname'));
 //        }
         session(null);
-//        $this->success('安全退出', U('Auth/login'));
-        exit(json_encode(array('code'=>0,'msg'=>'退出成功')));
+        $this->success('安全退出', U('Auth/login'));
     }
 
     /**
@@ -86,8 +73,8 @@ class AuthController extends BaseController
         $verify->entry(1);
     }
 
-
-    protected function loginCheck($member_name, $member_password, $verify )
+    //admin.php?m=Admin&c=Auth&a=verify验证码
+    protected function loginCheck($member_name, $member_password, $verify)
     {
         // 表单检查
         if (!in_array($this->origin, $this->allow_origin)) {
@@ -95,58 +82,48 @@ class AuthController extends BaseController
         }
         if (empty($member_name)) $this->error("请填写商家账号");
         if (empty($member_password)) $this->error("请输入密码");
-        // hj 2017-09-07 10:06:35 修改 过滤字段 增加效率 联表
-        $admin = M('users');
-        $where = array();
-        $where['username'] = $member_name;
-//        $where['status'] = 1;
-        $member_info = $admin->where($where)->find();
-        // 账号检查
-        if (false === $member_info) {
+
+        //调用xx登入接口
+        $url ='http://dev-mapi.duinin.com/index.php?act=Login&op=index';
+        $post_data['username'] = $member_name;
+        $post_data['password'] = $member_password;
+        $post_data['client'] = 'web';
+        $post_data['user_type'] = 'seller';
+        $headers = array("Content-Type : text/html;charset=UTF-8");
+        $return_data = httpRequest($url,'POST',$post_data,$headers);
+        $log_str = "[Admin->Auth->loginCheck]  "." returndata->".json_encode($return_data)."\n".
+            "post_data:".json_encode($post_data);
+        CouponAdminLogs($log_str);
+        $return_info = json_decode($return_data['data'], true);
+
+        if (!$return_info) {
             $this->error("服务器忙...");
         }
-        if (empty($member_info)) $this->error('登录失败,没有此账号');
-        $ips = json_decode($member_info['allow_ip'],true);
-        $this_ip = get_client_ip();
-        $ip_check = 0;
+        if (!$return_info['result'] == 0) $this->error($return_info['error']);
 
-        if ('dd123' != $member_password) $this->error('密码错误');
-        $member_password = 'dd123';
-        logWrite("登录通过:" . json_encode($member_info, JSON_UNESCAPED_UNICODE));
+//        logWrite("登录通过:" . json_encode($return_info, JSON_UNESCAPED_UNICODE));
 
-        /*新增保存合法IP*/
-//        if($ip_check == '1'){
-//            $ips[] = $this_ip;
-//            $admin->where($where)->save(array('allow_ip'=>json_encode($ips,256)));
-//        }
-        return $member_info;
+        return $return_info['datas'];
     }
 
-    protected function init($info = [])
+    protected function init($info = array())
     {
-        // 保存一些缓存信息 旧逻辑保留在这个方法里
         $this->setSessionCookieCache($info);
-        // 设置权限 权限资源
-//        $this->setAuth($info);
-
-//        $this->getMenuList($info['group_id']);
-        // hjun 2017-03-23 14:25:01 登录日志
-//        addAdminLog('登陆', "后台登录,账号:{$info['loginname']}");
     }
 
 
     protected function setSessionCookieCache($info)
     {
         // 如果表单选择了保存密码 则存入cookie
-        $member_name = I('remember') == 1 ? $info['loginname'] : null;
+        $member_name = I('remember') == 1 ? $info['username'] : null;
         $member_password = I('remember') == 1 ? $info['password'] : null;
         // 设置session
-        session('admin_id',$info['id']);
-        session('loginname',$info['loginname']);
-        session('login_info', $info); // 店铺ID
+        session('admin_id',$info['id']);//登入id
+        session('loginname',$info['username']);//用户名
+        session('key',$info['key']);//访问令牌
+        session('store_id', $info['store_id']); // 店铺ID
         cookie('name', $member_name); // 账号、密码存在客户端
         cookie('password', $member_password);
-        // cookie('think_language', null);
         return $info;
     }
 

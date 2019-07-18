@@ -24,9 +24,9 @@ class HpBaseController extends Controller\RestController
     protected $req = null;
 
     // 请求参数数组
-    protected $reqGet = [];
-    protected $reqPost = [];
-    protected $reqBody = [];
+    protected $reqGet = array();
+    protected $reqPost = array();
+    protected $reqBody = array();
 
     public function __construct()
     {
@@ -40,6 +40,11 @@ class HpBaseController extends Controller\RestController
     {
         $apiUrl = XXID . "/index.php?act=" . $act . "&op=" . $op;
         return $apiUrl;
+    }
+
+    public function getMemberInfo(){
+        $member_info = M('member_bind')->select();
+        return $member_info;
     }
 
     public function checkResult($return_arr){

@@ -31,7 +31,7 @@ function save(){
     }
 
     if(offline==''||offline=='请选择线下优惠卷'){
-        layer.alert('请选择线上优惠卷',{icon:2});
+        layer.alert('请选择线下优惠卷',{icon:2});
         return;
     }
 
@@ -43,6 +43,7 @@ function save(){
             setTimeout(function(){parent.window.location.reload();},1000);
         }
     },'json');
+
 
 }
 

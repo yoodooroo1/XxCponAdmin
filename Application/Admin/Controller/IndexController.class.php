@@ -10,17 +10,29 @@ class IndexController extends AdminController {
         $this->display('welcome');
     }
 
-    public function test(){
-        $headers = array("Content-Type : application/json;charset=UTF-8");
-        $data['fmch_id'] = '90002';
-        $coupon_content['coupons_type'] = 1;
-        $coupon_content['create_time'] = time();
-        $coupon_content['end_time'] = time();
-        $coupon_content['store_id'] = '11';
-        $coupon_content['member_id'] = '1';
-        $coupon_content['coupons_discount'] = '0.8';
-        $data['coupon_content'] = $coupon_content;
-        $res = httpRequest('http://erpds_test.duinin.com/Dock.php?c=index&a=onlineCouponToOffline','POST',$data,$headers);
-        var_dump($res);
+    public function test()
+    {
+        //调用xx登入接口
+//        $url ='http://dev-mapi.duinin.com/index.php?act=Login&op=index';
+//        $post_data['username'] = 666666;
+//        $post_data['password'] = 123456;
+//        $post_data['client'] = 'web';
+//        $post_data['user_type'] = 'seller';
+
+        $url = 'http://dev-mapi.duinin.com/index.php?act=Coupons&op=syncdata';
+        $post_data['version'] = 0;
+        $post_data['key'] = '079a2b1814ab89a1ccf393a6261ca123';
+        $post_data['client'] = 'web';
+        $post_data['user_type'] = 'seller';
+        $post_data['store_id'] = 27;
+        $post_data['comchannel_id'] = 0;
+
+        $headers = array("Content-Type : text/html;charset=UTF-8");
+        $return_data = httpRequest($url, 'POST', $post_data, $headers);
+        $log_str = "[Dock->Admin->loginCheck]  " . HP_GETGOODS . " returndata->" . json_encode($return_data) . "\n" .
+            "post_data:" . json_encode($post_data);
+        CouponAdminLogs($log_str);
+        $return_info = json_decode($return_data['data'], true);
+        var_dump($return_info['datas']);
     }
 }

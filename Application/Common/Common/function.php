@@ -71,7 +71,7 @@ define('BALANCE_LOGS_PATH', RUNTIME_PATH.'/Logs/balance/'.date('y_m_d').'.log');
 define('REFUND_GOODS_PATH', RUNTIME_PATH.'/Logs/refund_goods/'.date('y_m_d').'.log');
 define('HP_LOGS_PATH', RUNTIME_PATH.'/Logs/hp/'.date('y_m_d').'.log');
 define('TEST_PATH', RUNTIME_PATH.'/Logs/test/'.date('y_m_d').'.log');
-define('CP_AD', RUNTIME_PATH.'/Logs/CouponAdmin/'.date('y_m_d').'.log');
+define('Dock_PATH', RUNTIME_PATH.'/Logs/dock/'.date('y_m_d').'.log');
 $SRC = [
     'VUE' => [
         'common' => '/Public/common/js/plug-in/vue-2.x/vue.min.js?v=' . EXTRA_VERSION,

@@ -33,9 +33,9 @@ class AdminController extends BaseController
     //====================常用变量================//
 
     // 套餐权限信息
-    protected $grant = [];
+    protected $grant = array();
     // 菜单列表
-    protected $menu = [];
+    protected $menu = array();
     // ajax返回格式
     protected $result = array(
         'code' => -1,
@@ -44,26 +44,26 @@ class AdminController extends BaseController
         'comment' => '备注说明'
     );
     // 请求参数数组
-    protected $reqGet = [];
-    protected $reqPost = [];
-    protected $reqBody = [];
+    protected $reqGet = array();
+    protected $reqPost = array();
+    protected $reqBody = array();
     //====================其他变量================//
 
 
-    public function __construct()
-    {
-        session_start();
-        parent::__construct();
-        header("Content-Type:text/html;Charset=utf-8");
-        if (session('admin_id') > 0) {
-            // 初始化系统
-            $this->initSystem();
-        } else {
-            session(null);
-            header("Location:" . U('Auth/login'));
-            exit;
-        }
-    }
+//    public function __construct()
+//    {
+//        session_start();
+//        parent::__construct();
+//        header("Content-Type:text/html;Charset=utf-8");
+//        if (session('admin_id') > 0) {
+//            // 初始化系统
+//            $this->initSystem();
+//        } else {
+//            session(null);
+//            header("Location:" . U('Auth/login'));
+//            exit;
+//        }
+//    }
 
     public function __destruct()
     {

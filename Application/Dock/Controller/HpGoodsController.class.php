@@ -13,13 +13,13 @@ class HpGoodsController extends HpBaseController
 
     public function getHpGoods()
     {
-        $storeData = $this->getHpStoreDatas();
+        $storeData = $this->getMemberInfo();
         foreach ($storeData as $value){
             if (empty($value['store_id'])) continue;
             $params = array();
             $params['ftask'] = HP_GETGOODS;
-            $params['fmch_id'] = $this->config[$value['fmch_id']]['fmch_id'];
-            $params['fsign'] = $this->config[$value['fmch_id']]['fsign'];
+            $params['fmch_id'] = $value['fmch_id'];
+            $params['fsign'] = $value['fmch_id'];
             //$params['nid'] = $value['nid'];
             $params['ftimestamp'] = time();
             $headers = array("Content-Type : text/html;charset=UTF-8");
@@ -43,13 +43,13 @@ class HpGoodsController extends HpBaseController
     }
 
     public function getHpGoodsStock(){
-        $storeData = $this->getHpStoreGoodsDatas();
+        $storeData = $this->getMemberInfo();
         foreach ($storeData as $value){
             foreach ($value['nid'] as $nid_value){
                 $params = array();
                 $params['ftask'] = HP_GETGOODS_STOCK;
-                $params['fmch_id'] = $this->config[$value['fmch_id']]['fmch_id'];
-                $params['fsign'] = $this->config[$value['fmch_id']]['fsign'];
+                $params['fmch_id'] = $value['fmch_id'];
+                $params['fsign'] = $value['fsign'];
                 $params['fprodid'] = $nid_value['goods_qrcode'];
                 $params['ftimestamp'] = time();
                 $headers = array("Content-Type : text/html;charset=UTF-8");
