@@ -20,7 +20,6 @@ class HpGoodsController extends HpBaseController
             $params['ftask'] = HP_GETGOODS;
             $params['fmch_id'] = $value['fmch_id'];
             $params['fsign'] = $value['fmch_id'];
-            //$params['nid'] = $value['nid'];
             $params['ftimestamp'] = time();
             $headers = array("Content-Type : text/html;charset=UTF-8");
             $return_data = httpRequest($this->base_url, "POST", json_encode($params), $headers);

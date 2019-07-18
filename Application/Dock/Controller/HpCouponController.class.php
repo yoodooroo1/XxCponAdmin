@@ -20,15 +20,14 @@ class HpCouponController extends HpBaseController
 
     public function onlineCouponToOffline()
     {
-        $req = $this->req;
+        $req= $this->req;
         $log_str = "[Dock->HpCoupon->onlineCouponToOffline]  ".HP_OFFLINE." post_data->".json_encode($req);
         hpLogs($log_str);
-        $fmch_id = $req['fmch_id'];
         $cp = $req['coupon_content'];
         $params = array();
         $params['ftask'] = HP_OFFLINE;
-        $params['fmch_id'] = $this->config[$fmch_id]['fmch_id'];
-        $params['fsign'] = $this->config[$fmch_id]['fsign'];
+        $params['fmch_id'] = $req['fmch_id'];;
+        $params['fsign'] = $req['fsign'];
         $params['ftimestamp'] = time();
         $params['ftype'] = $cp['coupons_type'];
         $params['famt'] = '';
@@ -87,12 +86,11 @@ class HpCouponController extends HpBaseController
         $req = $this->req;
         $log_str = "[Dock->HpCoupon->offlineCouponToOnline]  ".HP_ONLINE." post_data->".json_encode($req);
         hpLogs($log_str);
-        $fmch_id = $req['fmch_id'];
         $cp = $req['coupon_content'];
         $params = array();
         $params['ftask'] = HP_ONLINE;
-        $params['fmch_id'] = $this->config[$fmch_id]['fmch_id'];
-        $params['fsign'] = $this->config[$fmch_id]['fsign'];
+        $params['fmch_id'] = $req['fmch_id'];
+        $params['fsign'] = $req['fsign'];
         $params['ftimestamp'] = time();
         $params['fcouponid'] = $cp['nid'];
         $params['ftype'] = $cp['coupons_type'];

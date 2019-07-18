@@ -1,12 +1,11 @@
 <?php
 return array(
-	//'配置项'=>'配置值'
     'DB_TYPE' => 'mysql',// 数据库类型
-    'DB_HOST' => '127.0.0.1',//正式 服务器地址
-    'DB_NAME' => 'test',// 数据库名
-    'DB_USER' => 'localhost',// 用户名
-    'DB_PWD' => '',// 密码
-    'DB_PREFIX' => '',// 数据库表前缀
+    'DB_HOST' => '123.207.98.106',//正式 服务器地址
+    'DB_NAME' => 'erpds',// 数据库名
+    'DB_USER' => 'erpds_test',// 用户名
+    'DB_PWD' => 'tw2sgLtUkALeksb3',// 密码
+    'DB_PREFIX' => 'dock_',// 数据库表前缀
     'DB_PORT' => 3306,// 端口
     'DB_DEBUG' => TRUE, // 数据库调试模式 开启后可以记录SQL日志
     'DB_FIELDS_CACHE' => false,        // 启用字段缓存
