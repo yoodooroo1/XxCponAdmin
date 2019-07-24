@@ -73,7 +73,7 @@ class AuthController extends BaseController
         $verify->entry(1);
     }
 
-    //admin.php?m=Admin&c=Auth&a=verify验证码
+
     protected function loginCheck($member_name, $member_password, $verify)
     {
         // 表单检查
@@ -84,7 +84,7 @@ class AuthController extends BaseController
         if (empty($member_password)) $this->error("请输入密码");
 
         //调用xx登入接口
-        $url ='http://dev-mapi.duinin.com/index.php?act=Login&op=index';
+        $url = $this->getXxUrl('Login','index');
         $post_data['username'] = $member_name;
         $post_data['password'] = $member_password;
         $post_data['client'] = 'web';
@@ -93,7 +93,7 @@ class AuthController extends BaseController
         $return_data = httpRequest($url,'POST',$post_data,$headers);
         $log_str = "[Admin->Auth->loginCheck]  "." returndata->".json_encode($return_data)."\n".
             "post_data:".json_encode($post_data);
-        CouponAdminLogs($log_str);
+        XxAdmin($log_str);
         $return_info = json_decode($return_data['data'], true);
 
         if (!$return_info) {
@@ -126,7 +126,5 @@ class AuthController extends BaseController
         cookie('password', $member_password);
         return $info;
     }
-
-
 
 }

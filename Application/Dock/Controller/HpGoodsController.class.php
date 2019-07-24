@@ -36,9 +36,10 @@ class HpGoodsController extends HpBaseController
             $post_data['store_id'] = $value['store_id'];
             $xx_url = $this->getXxUrl("Hp", "saveHpGoods");
             $return_data_two = httpRequest($xx_url, "post", $post_data);
-
           break;
         }
+        $data['msg'] = 'success';
+        $this->response($data,'JSON','200');
     }
 
     public function getHpGoodsStock(){

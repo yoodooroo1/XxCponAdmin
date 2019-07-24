@@ -1,5 +1,6 @@
 <?php
 return array(
+    'SHOW_PAGE_TRACE' => true,
     'DB_TYPE' => 'mysql',// 数据库类型
     'DB_HOST' => '123.207.98.106',//正式 服务器地址
     'DB_NAME' => 'erpds',// 数据库名

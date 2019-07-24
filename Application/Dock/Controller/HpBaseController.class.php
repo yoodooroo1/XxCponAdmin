@@ -15,7 +15,6 @@ define("HP_GETMEMBER", 201);  //获取用户信息
 define("HP_GETOFFLINECOUPON",501);  //查询线下优惠卷
 define("HP_OFFLINE",502);//线上转线下优惠卷
 define("HP_ONLINE",503);//线下转线上优惠卷
-
 class HpBaseController extends Controller\RestController
 {
 
@@ -38,7 +37,7 @@ class HpBaseController extends Controller\RestController
 
     public function getXxUrl($act, $op)
     {
-        $apiUrl = XXID . "/index.php?act=" . $act . "&op=" . $op;
+        $apiUrl = XX_API . "/index.php?act=" . $act . "&op=" . $op;
         return $apiUrl;
     }
 

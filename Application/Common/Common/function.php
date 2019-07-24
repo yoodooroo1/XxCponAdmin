@@ -69,9 +69,10 @@ define('CCB_LOGS_PATH', RUNTIME_PATH.'/Logs/CCB/'.date('y_m_d').'.log');
 define('CASHIER_LGOIN_LOGS_PATH', RUNTIME_PATH.'/Logs/cash_qrlogin/'.date('y_m_d').'.log');
 define('BALANCE_LOGS_PATH', RUNTIME_PATH.'/Logs/balance/'.date('y_m_d').'.log');
 define('REFUND_GOODS_PATH', RUNTIME_PATH.'/Logs/refund_goods/'.date('y_m_d').'.log');
-define('HP_LOGS_PATH', RUNTIME_PATH.'/Logs/hp/'.date('y_m_d').'.log');
 define('TEST_PATH', RUNTIME_PATH.'/Logs/test/'.date('y_m_d').'.log');
-define('Dock_PATH', RUNTIME_PATH.'/Logs/dock/'.date('y_m_d').'.log');
+define('HP_LOGS_PATH', RUNTIME_PATH.'/Logs/Hp/'.date('y_m_d').'.log');
+define('XX_ADMIN', RUNTIME_PATH.'/Logs/XxAdmin/'.date('y_m_d').'.log');
+define('XX_COUPONS', RUNTIME_PATH.'/Logs/XxCoupons/'.date('y_m_d').'.log');
 $SRC = [
     'VUE' => [
         'common' => '/Public/common/js/plug-in/vue-2.x/vue.min.js?v=' . EXTRA_VERSION,
@@ -1868,11 +1869,15 @@ function setGoodsIsSelect(&$goods = [], $cantSpecList = [])
  * @param string $fag 日志标记
  * @return string
  */
-function output_data($datas, $log = false, $fag = 'output_data')
+function output_data($datas, $msg,$log = false, $fag = 'output_data')
 {
     $data = array();
-    $data['result'] = 0;
+    $data['result'] = 200;
+    $data['code'] = 0;
+    $data['msg'] = $msg;
     $data['datas'] = $datas;
+
+
     if ($log) {
         logRecord($fag . "->" . json_encode($data, JSON_UNESCAPED_UNICODE));
     }
@@ -4467,7 +4472,12 @@ function TestLogs($log_str){
     \Think\Log::write($log_str, \Think\Log::INFO, "", TEST_PATH);
 }
 
-function CouponAdminLogs($log_str){
-    \Think\Log::write($log_str, \Think\Log::INFO, "", CP_AD);
+function XxAdmin($log_str){
+    \Think\Log::write($log_str, \Think\Log::INFO, "", XX_ADMIN);
 }
+
+function XxCoupons($log_str){
+    \Think\Log::write($log_str, \Think\Log::INFO, "", XX_COUPONS);
+}
+
 

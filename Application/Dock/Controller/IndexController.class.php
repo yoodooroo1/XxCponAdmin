@@ -15,8 +15,8 @@ class IndexController extends HpBaseController {
             $fmch_id = '90002';
             $params = array();
             $params['ftask'] = 501;
-            $params['fmch_id'] = $this->config[$fmch_id]['fmch_id'];
-            $params['fsign'] = $this->config[$fmch_id]['fsign'];
+            $params['fmch_id'] = '90002';
+            $params['fsign'] = '08077d8ee01bad9968223b689925179b';
             $params['ftimestamp'] = time();
             $params['fdata'] = '2019-01-11~2019-09-12';
             $params['ftype'] = 1;

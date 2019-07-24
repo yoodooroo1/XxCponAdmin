@@ -9,12 +9,13 @@
 namespace Admin\Controller;
 
 
-class Test extends AdminController
+class TestController extends AdminController
 {
     public function test(){
-        $cp = new \Dock\Controller\IndexController();
-        $data['id'] = 1;
-        $data['content']['id'] = 1;
-        $rs = $cp->onlineCouponToOffline($data);
+        $params = array();
+        $params['store_id'] = session('store_id');
+        $params['state'] = 0;
+        $coupons_lists = M('xx_coupons_lists_record')->field('is_delete,state,store_id',true)->where($params)->select();
+        output_data($coupons_lists);
     }
 }

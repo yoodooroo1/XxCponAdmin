@@ -66,40 +66,6 @@ return array(
     /*缓存设置*/
     'DATA_CACHE_TIME' => 0, // 缓存30分钟
 
-    /*上传设置*/
-    'IMG_ROOT_PATH' => './images/',
-    'upload_type' => 'local',
-    'up_bucket' => '',
-    'up_form_api_secret' => '',
-    'up_username' => '',
-    'up_password' => '',
-    'up_domainname' => '',
-    'up_exts' => 'jpeg,jpg,png,mp3',
-    'up_size' => '20480',
-    'up_path' => './data/upload',
-    'connectnum' => '系统维护中',
-
-    /*定时任务执行时间设置*/
-    'TASK_INTERVAL' => [
-        'collect_img' => 1800,
-        'refresh_goods' => 50,
-        'clear_coupons_center_today_num' => 24 * 3600 - 50,
-        'message_tip' => 50,
-        'set_mj_flag' => 50,
-        'add_group_order' => 50,
-        'rollback_group_order_goods' => 50,
-        'refresh_goods_qianggou' => 3600,
-    ],
-
-    /*杂项*/
-    'jsver' => 1487139154,
-    'DY_PRICE_NUM' => [0, 0, 0, 2, 10, 0, 0], // 自定义价格表的数量 按照套餐等级设置
-    'API_SIGN_KEY' => 'vjd8988998', // 接口签名
-    'JWT_KEY' => 'wjd', // JWT加密key
-    'API_SIGN_TIME' => 60, // 防止重放攻击
-    'LAT_LNG_TIME_OUT' => 3600 * 7, // 经纬度失效时间(存在cookie中)
-    'DB_CACHE_ON' => false, // 默认开启缓存机制
-    'DB_CACHE_MAP_TYPE' => 0, // 数据库缓存的映射的存储类型 0-使用数据库存 1-使用数组存
 
     'AUTOLOAD_NAMESPACE' => array(
         'JsonSchema' => VENDOR_PATH . 'JsonSchema',
