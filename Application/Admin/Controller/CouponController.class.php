@@ -66,6 +66,15 @@ class CouponController extends AdminController
         $this->display('index');
     }
 
+    /**增加优惠卷关联信息
+     * URL : /admin.php?c=coupon&a=addCpMatching
+     * return  {
+    "result": 200,
+    "code": 0,
+    "msg":
+    "datas": {}
+    }
+     */
     public function addCpMatching(){
         $match = M('coupons_match');
         M()->startTrans();
@@ -79,6 +88,15 @@ class CouponController extends AdminController
         output_data(array(),'新增成功');
     }
 
+    /**删除优惠卷关联信息
+     * URL : /admin.php?c=coupon&a=delCpMatching
+     * return  {
+    "result": 200,
+    "code": 0,
+    "msg":
+    "datas": {}
+    }
+     */
     public function delCpMatching(){
         $req = $this->req;
         $match = M('coupons_match');
@@ -104,6 +122,7 @@ class CouponController extends AdminController
 
     /**优惠卷关联
      * URL : /admin.php?c=coupon&a=addCouponsMatching
+     * params int id 关联优惠卷ID
      * params string xx_coupons_id 讯信优惠卷ID
      * params string third_coupons_id 第三方优惠卷ID
      * return  {
@@ -173,6 +192,7 @@ class CouponController extends AdminController
 
     /**优惠卷解除关联
      * URL : /admin.php?c=coupon&a=couponsSeparating
+     * params int id 关联优惠卷ID
      * params string xx_coupons_id 讯信优惠卷ID
      * params string third_coupons_id 第三方优惠卷ID
      * return  {

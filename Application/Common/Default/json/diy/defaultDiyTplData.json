@@ -1,8 +1,0 @@
-{
-  "tpl_id": "0",
-  "tpl_name": "模版名称",
-  "page_config": {"title_name":"店铺首页", "page_desc":"", "page_color":"#f9f9f9","shop_head":1},
-  "customer_msg":{"btn_text":"在线客服", "is_add":0},
-  "tpl_content": [],
-  "maxModuleId": "55558"
-}

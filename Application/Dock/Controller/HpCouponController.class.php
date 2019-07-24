@@ -18,7 +18,13 @@ class HpCouponController extends HpBaseController
         die("dock");
     }
 
-    public function onlineCouponToOffline()
+    public function getHpCoupons(){
+        $storeData = $this->getMemberInfo();
+        foreach ($storeData as $value){
+        }
+    }
+
+    public function transformHpCouponsByXx()
     {
         $req= $this->req;
         $log_str = "[Dock->HpCoupon->onlineCouponToOffline]  ".HP_OFFLINE." post_data->".json_encode($req);
@@ -81,7 +87,7 @@ class HpCouponController extends HpBaseController
         }
     }
 
-    public function offlineCouponToOnline()
+    public function transformXxCouponsByHp()
     {
         $req = $this->req;
         $log_str = "[Dock->HpCoupon->offlineCouponToOnline]  ".HP_ONLINE." post_data->".json_encode($req);
