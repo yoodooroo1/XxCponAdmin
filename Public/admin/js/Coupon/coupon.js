@@ -9,14 +9,10 @@ layui.use(['layer','form'],function () {
 
 //添加优惠卷转换
 function add() {
-    layer.open({
-        type: 2,
-        // title: id>0?'编辑管理员':'添加管理员',
-        shade: 0.3,
-        title:'新增优惠卷信息',
-        area: ['480px', '430px'],
-        content: '/admin.php?m=Admin&c=Coupon&a=getCouponList'
-    });
+    layui.jquery.post('/admin.php?c=coupon&a=addCpMatching',function(){
+            layer.msg('添加成功');
+            setTimeout(function(){parent.window.location.reload();},1000);
+    },'json');
 }
 
 //保存
@@ -54,12 +50,12 @@ function del(id){
             area:['40%','220px'],
             btn:['确定','取消']},
         function(){
-            $.post('/admin/coupon/delete',{'id':id},function(res){
-                if(res.code>0){
-                    layer.alert(res.msg,{icon:2});
-                }else{
-                    layer.msg(res.msg);
+            $.post('/admin.php?c=coupon&a=delCpMatching',{'id':id},function(res){
+                if(res.code=200){
+                    layer.msg('删除成功');
                     setTimeout(function(){parent.window.location.reload();},1000);
+                }else{
+                    layer.alert('删除失败',{icon:2});
                 }
             },'json');
         });

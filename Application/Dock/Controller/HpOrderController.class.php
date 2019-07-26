@@ -2,7 +2,6 @@
 
 namespace Dock\Controller;
 
-use Think\Controller;
 
 class HpOrderController extends HpBaseController
 {
@@ -65,7 +64,7 @@ class HpOrderController extends HpBaseController
     }
             $params['ftimestamp'] = time();
             $headers = array("Content-Type : text/html;charset=UTF-8");
-            $return_data = httpRequest($this->base_url, "POST", json_encode($params), $headers);
+            $return_data = httpRequest($this->Hp_base_url, "POST", json_encode($params), $headers);
             $log_str = "[Dock->HpOrder->saveOrder]  ".HP_SAVEORDER." returndata->".json_encode($return_data)."\n".
                 "post_data:".json_encode($params);
             hpLogs($log_str);
@@ -86,7 +85,7 @@ class HpOrderController extends HpBaseController
         $params['nid'] = "";
         $params['ftimestamp'] = time();
         $headers = array("Content-Type : text/html;charset=UTF-8");
-        $return_data = httpRequest($this->base_url, "POST", json_encode($params), $headers);
+        $return_data = httpRequest($this->Hp_base_url, "POST", json_encode($params), $headers);
         $return_arr = json_decode($return_data['data'],true);
         return $return_arr;
     }

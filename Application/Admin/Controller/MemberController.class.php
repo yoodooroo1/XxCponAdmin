@@ -10,6 +10,16 @@ namespace Admin\Controller;
 
 class MemberController extends AdminController
 {
+    /**会员绑定接口
+     * URL : /admin.php?c=coupon&a=memberBind
+     * $params string $fmch_id
+     * $params string $fsign
+     * return  {
+    "result": 200,
+    "code": 0,
+    "datas": {}
+    }
+     */
     //会员绑定接口
     public function memberBind(){
         $req = $this->req;
@@ -17,7 +27,7 @@ class MemberController extends AdminController
         M()->startTrans();
         try{
             $m['fmch_id'] = $req['fmch_id'];
-            $m['fmch_sign'] = $req['fmch_sign'];
+            $m['fsign'] = $req['fsign'];
             $m['store_id'] = $this->store_id;
             $m['addtime'] = time();
             $m['state'] = 1;
@@ -25,7 +35,7 @@ class MemberController extends AdminController
             $post_data['hp_mark	'] = 0;
             $post_data['hp_token'] = md5($post_data['hp_mark']. 'vjd8988998');
             $post_data['fmch_id'] = $req['fmch_id'];
-            $post_data['fmch_sign'] = $req['fmch_sign'];
+            $post_data['fsign'] = $req['fsign'];
             $post_data['store_id'] = $this->store_id;
             $post_data['state'] = 'web';
             $post_data['user_type'] = 'seller';

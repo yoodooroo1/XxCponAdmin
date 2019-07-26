@@ -2,8 +2,6 @@
 
 namespace Dock\Controller;
 
-use Think\Controller;
-use Think\Log;
 
 class HpStoreController extends HpBaseController
 {
@@ -17,18 +15,22 @@ class HpStoreController extends HpBaseController
      */
     public function getHpStore()
     {
-        foreach ($this->config as $key => $value){
+        $storeData = $this->getXxBindInfo();
+        foreach ($storeData as $key => $value){
             $params = array();
             $params['ftask'] = HP_GETSTORE;
             $params['fmch_id'] = $value['fmch_id'];
             $params['fsign'] = $value['fsign'];
             $params['ftimestamp'] = time();
             $headers = array("Content-Type : text/html;charset=UTF-8");
-            $return_data = httpRequest($this->base_url, "POST", json_encode($params), $headers);
+            $return_data = httpRequest($this->Hp_base_url, "POST", json_encode($params), $headers);
+            $log_str = "[Dock->HpStore->getHpStore]  ".HP_GETSTORE." returndata->".json_encode($return_data)."\n".
+                "post_data:".json_encode($params);
+            hpLogs($log_str);
             $return_arr = json_decode($return_data['data'], true);
-            $this->checkResult($return_arr);
+            $this->hpResChecking($return_arr);
             $post_data = array();
-            $post_data['hp_mark'] = time();
+            $post_data['hp_mark'] = 0;
             $post_data['hp_token'] = md5($post_data['hp_mark'] . "vjd8988998");
             $post_data['fmch_id'] = $value['fmch_id'];
             $post_data['info'] = $return_data['data'];

@@ -9,7 +9,6 @@
 namespace Dock\Controller;
 
 
-use Think\Controller;
 
 class HpCouponController extends HpBaseController
 {
@@ -19,7 +18,7 @@ class HpCouponController extends HpBaseController
     }
 
     public function getHpCoupons(){
-        $storeData = $this->getMemberInfo();
+        $storeData = $this->getXxBindInfo();
         foreach ($storeData as $value){
         }
     }
@@ -50,7 +49,7 @@ class HpCouponController extends HpBaseController
             unset($params['fuseminamt']);
         }
         $headers = array("Content-Type : text/html;charset=UTF-8");
-        $return_data = httpRequest($this->base_url, "POST", json_encode($params), $headers);
+        $return_data = httpRequest($this->Hp_base_url, "POST", json_encode($params), $headers);
         $log_str = "[Dock->HpCoupon->onlineCouponToOffline]  ".HP_OFFLINE." returndata->".json_encode($return_data)."\n".
             "post_data:".json_encode($params);
         hpLogs($log_str);
@@ -101,7 +100,7 @@ class HpCouponController extends HpBaseController
         $params['fcouponid'] = $cp['nid'];
         $params['ftype'] = $cp['coupons_type'];
         $headers = array("Content-Type : text/html;charset=UTF-8");
-        $return_data = httpRequest($this->base_url, "POST", json_encode($params), $headers);
+        $return_data = httpRequest($this->Hp_base_url, "POST", json_encode($params), $headers);
         $log_str = "[Dock->HpCoupon->offlineCouponToOnline]  ".HP_ONLINE." returndata->".json_encode($return_data)."\n".
             "post_data:".json_encode($params);
         hpLogs($log_str);

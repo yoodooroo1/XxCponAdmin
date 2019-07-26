@@ -1680,8 +1680,8 @@ function setGoodsIsSelect(&$goods = [], $cantSpecList = [])
 function output_data($datas, $msg,$log = false, $fag = 'output_data')
 {
     $data = array();
-    $data['result'] = 200;
-    $data['code'] = 0;
+    $data['result'] = 0;
+    $data['code'] = 200;
     $data['msg'] = $msg;
     $data['datas'] = $datas;
 

@@ -2,8 +2,6 @@
 
 namespace Dock\Controller;
 
-use Think\Controller;
-
 class HpMemberController extends HpBaseController
 {
     public function index()
@@ -36,7 +34,7 @@ class HpMemberController extends HpBaseController
                     $params['fopenid'] = $svalue['wx_openid'];
                     $params['ftimestamp'] = time();
                     $headers = array("Content-Type : text/html;charset=UTF-8");
-                    $return_data = httpRequest($this->base_url, "POST", json_encode($params), $headers);
+                    $return_data = httpRequest($this->Hp_base_url, "POST", json_encode($params), $headers);
                     $return_arr = json_decode($return_data['data'], true);
                     if ($return_arr['result']['code'] == 0) {
                         $tag = M("mb_hp_sync_version")->where(array('store_id' => $value['store_id']))->save(array('member_version' => $svalue['version']));
@@ -66,7 +64,7 @@ class HpMemberController extends HpBaseController
     public function getHpStoreDatas()
     {
         $post_data = array();
-        $post_data['hp_mark'] = time();
+        $post_data['hp_mark'] = 0;
         $post_data['hp_token'] = md5($post_data['hp_mark'] . "vjd8988998");
         $xx_url = $this->getXxUrl("Hp", "getHpStoreAccount");
         $return_data = httpRequest($xx_url, "post", $post_data);
@@ -87,7 +85,7 @@ class HpMemberController extends HpBaseController
         $params['fopenid'] = '';
         $params['ftimestamp'] = time();
         $headers = array("Content-Type : text/html;charset=UTF-8");
-        $return_data = httpRequest($this->base_url, "POST", json_encode($params), $headers);
+        $return_data = httpRequest($this->Hp_base_url, "POST", json_encode($params), $headers);
         $return_arr = json_decode($return_data['data'], true);
     }
 

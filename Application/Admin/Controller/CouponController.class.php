@@ -14,7 +14,11 @@ use Think\Model;
 
 class CouponController extends AdminController
 {
-
+    public function index(){
+        $coupon_list = $this->getMatchedLists();
+        $this->assign('coupon_lists',$coupon_list);
+        $this->display('index');
+    }
     /**获取讯信优惠卷列表
      * URL : /admin.php?c=coupon&a=getXxCouponsList
      * return  {
@@ -23,11 +27,12 @@ class CouponController extends AdminController
     "datas": {}
     }
      */
-        public function getXxCouponsList(){
+
+    public function getXxCouponsList(){
         $params = array();
         $params['store_id'] = $this->store_id;
         $params['state'] = 0;
-        $coupons_lists = M('xx_coupons_lists_record')->field('is_delete,state,store_id',true)->where($params)->select();
+        $coupons_lists = M('xx_coupons_lists_record')->field('id,is_delete,state,store_id',true)->where($params)->select();
         output_data($coupons_lists);
     }
 
@@ -44,7 +49,7 @@ class CouponController extends AdminController
         $params = array();
         $params['store_id'] = $this->store_id;
         $params['state'] = 0;
-        $coupons_lists = M('third_coupons_lists_record')->field('is_delete,state,store_id',true)->where($params)->select();
+        $coupons_lists = M('third_coupons_lists_record')->field('id,is_delete,state,store_id',true)->where($params)->select();
         output_data($coupons_lists);
     }
 
@@ -62,8 +67,9 @@ class CouponController extends AdminController
         $params['is_delete'] = 0;
         $params['store_id'] = $this->store_id;
         $coupon_list = M('coupons_match')->where($params)->field('state,is_delete,create_time',true)->select();
-        $this->assign('coupon_lists',$coupon_list);
-        $this->display('index');
+        return $coupon_list;
+//        $this->assign('coupon_lists',$coupon_list);
+//        $this->display('index');
     }
 
     /**增加优惠卷关联信息
@@ -79,6 +85,9 @@ class CouponController extends AdminController
         $match = M('coupons_match');
         M()->startTrans();
         try {
+            if($this->store_id == NULL){
+                output_error(-100,'会话过期，请重新登入');
+            }
             $match_params = array('create_time' => time(),'store_id'=>$this->store_id);
             $match->data($match_params)->add();
             M()->commit();
@@ -112,16 +121,19 @@ class CouponController extends AdminController
         M()->startTrans();
         try {
             $match_params =array('is_delete'=>1,'delete_time'=>time());
-            $match->where(array('id'=>$req['id']))->save($match_params);
+            $del = $match->where($params)->save($match_params);
             M()->commit();
+            if(!$del) {
+                output_error('-100','删除失败');
+            }
+            output_data(array(), '删除成功');
         }catch (\Exception $e){
             M()->rollback();
         }
-        output_data(array(),'删除成功');
     }
 
     /**优惠卷关联
-     * URL : /admin.php?c=coupon&a=addCouponsMatching
+     * URL : /admin.php?c=coupon&a=couponsMatching
      * params int id 关联优惠卷ID
      * params string xx_coupons_id 讯信优惠卷ID
      * params string third_coupons_id 第三方优惠卷ID
@@ -145,6 +157,11 @@ class CouponController extends AdminController
         $third_params['store_id'] = $this->store_id;
         $third_params['third_coupons_id'] = $req['third_coupons_id'];
         $third_info = $third_cp->where($third_params)->find();
+        if(!$xx_info||!$third_info){
+            $log_str = "[Admin->Conpon->couponsMatching] 优惠卷关联失败： " . "xx_coupons_id：".$xx_info['xx_coupons_id'].",third_coupons_id：" . $third_info['third_coupons_id'] ."error:参数错误". "\n" ;
+            XxCoupons($log_str);
+            output_error('-100','优惠卷参数错误!','');
+        }
         if(!$xx_info['state'] == 0) {
             $log_str = "[Admin->Conpon->couponsMatching] 优惠卷关联失败： " . "xx_coupons_id：".$xx_info['xx_coupons_id'].",third_coupons_id：" . $third_info['third_coupons_id'] ."error:此讯信优惠卷已关联". "\n" ;
             XxCoupons($log_str);
@@ -215,6 +232,11 @@ class CouponController extends AdminController
         $third_params['store_id'] = $this->store_id;
         $third_params['third_coupons_id'] = $req['third_coupons_id'];
         $third_info = $third_cp->where($third_params)->find();
+        if(!$xx_info||!$third_info){
+            $log_str = "[Admin->Conpon->couponsSeparating] 优惠卷关联失败： " . "xx_coupons_id：".$xx_info['xx_coupons_id'].",third_coupons_id：" . $third_info['third_coupons_id'] ."error:参数错误". "\n" ;
+            XxCoupons($log_str);
+            output_error('-100','优惠卷参数错误!','');
+        }
         if($xx_info['state'] == 0) {
             $log_str = "[Admin->Conpon->addcouponsMatch] 优惠卷解除关联失败：" . "xx_coupons_id：".$xx_info['xx_coupons_id'].",third_coupons_id：" . $third_info['third_coupons_id'] ."error:讯信优惠卷未关联". "\n" ;
             XxCoupons($log_str);
@@ -253,7 +275,16 @@ class CouponController extends AdminController
     }
 
 
-    /**同步讯信优惠卷**/
+    /**同步优惠卷信息
+     * URL : /admin.php?c=coupon&a=syncCouponsData
+     * params int id 关联优惠卷ID
+     * params string xx_coupons_id 讯信优惠卷ID
+     * params string third_coupons_id 第三方优惠卷ID
+     * return  {
+    "result": 200,
+    "code": 0,
+    }
+     */
     public function syncCouponsData()
     {
         $post_data['version'] = 0;
