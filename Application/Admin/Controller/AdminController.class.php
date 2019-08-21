@@ -45,7 +45,7 @@ class AdminController extends BaseController
         parent::__construct();
         header("Content-Type:text/html;Charset=utf-8");
         if (session('admin_id') > 0) {
-            // 初始化系统
+//             初始化系统
             $this->initSystem();
         } else {
             session(null);

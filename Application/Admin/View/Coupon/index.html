@@ -1,58 +1,264 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="__ROOT__/Public/layui/css/layui.css">
-    <link rel="stylesheet" type="text/css" href="__ROOT__/Public/admin/css/coupon/coupon.css">
-    <script type="text/javascript" src="__ROOT__/Public/layui/layui.js"></script>
-    <style type="text/css">
-    </style>
-    <title>Title</title>
-</head>
-<body style="padding: 10px">
-<div class="header">
-    <span style="color: dodgerblue;">优惠卷绑定</span>
-    <!--<i class="layui-icon" style="float: right;margin-right: 20px;margin-top: 10px">&#xe666;</i>-->
-    <button class="layui-btn layui-btn-primary layui-btn-sm" style="margin-top: 3px" onclick="fresh()">同步
-        <!--&nbsp<i class="layui-icon" style="float: right;">&#xe666;</i>-->
-    </button>
-    <button class="layui-btn layui-btn-normal layui-btn-sm"  style="margin-top: 3px;" onclick="add()">新增优惠卷互换</button>
-    <hr>
-</div>
-<table class="layui-table">
-    <!--<thead>-->
-    <tr>
-        <th style="width: 25px">ID</th>
-        <td>线上优惠卷</td>
-        <td>线下优惠卷</td>
-        <td>操作</td>
-    </tr>
-    <!--</thead>-->
-    <tbody>
-    <volist name="coupon_lists" id="vo">
-    <tr>
-        <td>{$vo.id}</td>
-        <td>{$vo.xx_coupons_id}</td>
-        <td>{$vo.third_coupons_id}</td>
-        <!--<td><select class="select"><option value="volvo">{$vo.online}</option></select></td>-->
-        <!--<td><select class="select"><option value="volvo">{$vo.offline}</option></select></td>-->
-        <td width="135px">
-            <!--<button class="layui-btn layui-btn-primary layui-btn-sm" href="javascript:;" onclick="edit()">编辑</button>-->
-            <if condition="$vo.status == 0">
-            <button class="layui-btn layui-btn-normal layui-btn-sm" href="javascript:;" onclick="match({$vo.id})">关联互换</button>
-            <button class="layui-btn layui-btn-danger layui-btn-sm" href="javascript:;" onclick="del({$vo.id})">删除</button>
-            </if>
-            <if condition="$vo.status == 1">
-                <button class="layui-btn layui-btn-primary layui-btn-sm" href="javascript:;" onclick="depart({$vo.id})">解除关联</button>
-            </if>
-        </td>
-    </tr>
-    </volist>
-    </tbody>
-</table>
-<div style="text-align: center;margin-right: 70px;margin-top: 25px" class="pages">
-    {$page}
-</div>
-<script src="__ROOT__/Public/admin/js/Coupon/coupon.js?version={$v}"></script>
+<include file="Public/meta" />
+<body>
+  <div id="app" v-cloak>
+    <div class="search-nav">
+      <button class="diy-btn btn-primary" @click="addCpMatching">新增优惠卷互换</button>
+      <button class="diy-btn" @click="syncCoupon">同步</button>
+    </div>
+    <div class="search-table">
+      <ul class="coupon-list">
+        <li v-for="(coupon, index) in couponData">
+          <span>{{ index + 1 }}.线上优惠券</span>
+          <el-select v-model="coupon.xx_coupons_id" :disabled="+coupon.state === 1">
+            <el-option value="">请选择</el-option>
+            <el-option
+                v-for="xcoupon in xxCouponsList" :key="xcoupon.xx_coupons_id"
+                :value="+coupon.state === 0 ? xcoupon.xx_coupons_id : xcoupon.xx_coupons_name"
+                :label="xcoupon.xx_coupons_name"></el-option>
+          </el-select>
+          <i class="myicon-link-icon" :class="+coupon.state === 1 ? '' : 'active_0'"></i>
+          <span>线下优惠券</span>
+          <el-select v-model="coupon.third_coupons_id" :disabled="+coupon.state === 1">
+            <el-option value="">请选择</el-option>
+            <el-option
+                v-for="tcoupon in thirdCouponsList" :key="tcoupon.third_coupons_id"
+                :value="+coupon.state === 0 ? tcoupon.third_coupons_id : tcoupon.third_coupons_name"
+                :label="tcoupon.third_coupons_name"></el-option>
+          </el-select>
+          <template v-if="+coupon.state === 0">
+            <button class="diy-btn btn-primary" style="margin: 0 5px 0 15px" @click="matchCoupon(coupon)">关联互换</button>
+            <button class="diy-btn" @click="delMatchCoupon(coupon)">删除</button>
+          </template>
+          <template v-else>
+            <button class="diy-btn" style="margin-left: 15px" @click="releaseMatchCoupon(coupon)">解除关联</button>
+          </template>
+        </li>
+      </ul>
+    </div>
+  </div>
 </body>
-</html>
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data: function () {
+      return {
+        couponData: [],
+        xxCouponsList: [],
+        thirdCouponsList: [],
+      }
+    },
+    mounted: function () {
+      this.getCouponData()
+      this.getxxCouponsList()
+      this.getThirdCouponsList()
+    },
+    methods: {
+      // 获取绑定的优惠券列表
+      getCouponData: function () {
+        var self = this
+        $.ajax({
+          url: '/admin.php?c=coupon&a=getMatchedLists',
+          dataType: 'JSON',
+          success: function (result) {
+            if (+result.code === 200) {
+              self.couponData = result.datas
+            } else {
+              layer.msg(result.msg)
+              return false
+            }
+          },
+          error: function (result) {
+            layer.msg('系统繁忙，稍后再试！')
+            return false
+          }
+        })
+      },
+      //获取讯信优惠卷（线上优惠卷下拉框）
+      getxxCouponsList: function () {
+        var self = this
+        $.ajax({
+          url: '/admin.php?c=coupon&a=getxxCouponsList',
+          dataType: 'JSON',
+          success: function (result) {
+            if (+result.code === 200) {
+              self.xxCouponsList = result.datas
+            } else {
+              layer.msg(result.msg)
+              return false
+            }
+          },
+          error: function (result) {
+            layer.msg('系统繁忙，稍后再试！')
+            return false
+          }
+        })
+      },
+
+      //获取第三方优惠卷（线下优惠卷下拉框）
+      getThirdCouponsList: function () {
+        var self = this
+        $.ajax({
+          url: '/admin.php?c=coupon&a=getThirdCouponsList',
+          dataType: 'JSON',
+          success: function (result) {
+            if (+result.code === 200) {
+              self.thirdCouponsList = result.datas
+            } else {
+              layer.msg(result.msg)
+              return false
+            }
+          },
+          error: function (result) {
+            layer.msg('系统繁忙，稍后再试！')
+            return false
+          }
+        })
+      },
+
+      //添加优惠券转换
+      addCpMatching: function () {
+        var self = this
+        $.ajax({
+          url: '/admin.php?c=coupon&a=addCpMatching',
+          dataType: 'JSON',
+          success: function (result) {
+            if (+result.code === 200) {
+              self.getCouponData()
+              layer.msg('添加成功')
+            } else {
+              layer.msg(result.msg)
+              return false
+            }
+          },
+          error: function (result) {
+            layer.msg('系统繁忙，稍后再试！')
+            return false
+          }
+        })
+      },
+
+      // 同步优惠券
+      syncCoupon: function () {
+        var self = this
+        $.ajax({
+          url: '/admin.php?c=coupon&a=syncCouponsData',
+          dataType: 'JSON',
+          success: function (result) {
+            if (+result.code === 200) {
+              self.getCouponData()
+              layer.msg('同步成功')
+            } else {
+              layer.msg(result.msg)
+              return false
+            }
+          },
+          error: function (result) {
+            layer.msg('系统繁忙，稍后再试！')
+            return false
+          }
+        })
+      },
+
+      // 关联互换
+      matchCoupon: function (item) {
+        var self = this
+        if (item.xx_coupons_id === null || item.xx_coupons_id === '') {
+          layer.msg('请选择线上优惠券')
+          return false
+        }
+        if (item.third_coupons_id === null || item.third_coupons_id === '') {
+          layer.msg('请选择线下优惠券')
+          return false
+        }
+        layer.confirm('', {title: '您确定要关联吗?', skin: 'layer-skin'}, function (index) {
+          $.ajax({
+            url: '/admin.php?c=coupon&a=couponsMatching',
+            dataType: 'JSON',
+            data: {
+              id: item.id,
+              xx_coupons_id: item.xx_coupons_id,
+              third_coupons_id: item.third_coupons_id
+            },
+            success: function (result) {
+              if (+result.code === 200) {
+                self.getCouponData()
+                layer.msg('关联成功')
+              } else {
+                layer.msg(result.msg)
+                return false
+              }
+            },
+            error: function (result) {
+              layer.msg('系统繁忙，稍后再试！')
+              return false
+            }
+          })
+        })
+      },
+
+      // 解除关联
+      releaseMatchCoupon: function (item) {
+        var self = this
+        if (item.xx_coupons_id === null || item.xx_coupons_id === '') {
+          layer.msg('请选择线上优惠券')
+          return false
+        }
+        if (item.third_coupons_id === null || item.third_coupons_id === '') {
+          layer.msg('请选择线下优惠券')
+          return false
+        }
+        layer.confirm('解除关联', {title: '确定要解除关联吗?', skin: 'layer-skin'}, function (index) {
+          $.ajax({
+            url: '/admin.php?c=coupon&a=couponsSeparating',
+            dataType: 'JSON',
+            data: {
+              id: item.id,
+              xx_coupons_id: item.xx_coupons_id,
+              third_coupons_id: item.third_coupons_id
+            },
+            success: function (result) {
+              if (+result.code === 200) {
+                self.getCouponData()
+                layer.msg('关联成功')
+                layer.close(index)
+              } else {
+                layer.msg(result.msg)
+                return false
+              }
+            },
+            error: function (result) {
+              layer.msg('系统繁忙，稍后再试！')
+              return false
+            }
+          })
+        })
+      },
+
+      // 删除关联的优惠券
+      delMatchCoupon: function (item) {
+        var self = this
+        layer.confirm('您确定要删除关联吗?', {title: '删除关联', skin: 'layer-skin'}, function (index) {
+          $.ajax({
+            url: '/admin.php?c=coupon&a=delCpMatching',
+            dataType: 'JSON',
+            data: {id: item.id},
+            success: function (result) {
+              if (+result.code === 200) {
+                self.getCouponData()
+                layer.msg('删除成功')
+                layer.close(index)
+              } else {
+                layer.msg(result.msg)
+                return false
+              }
+            },
+            error: function (result) {
+              layer.msg('系统繁忙，稍后再试！')
+              return false
+            }
+          })
+        })
+      }
+    }
+  })
+</script>

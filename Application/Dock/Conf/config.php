@@ -20,7 +20,7 @@ return array(
 //            'fmch_id'=> '90002',
 //            'fmch_key' => 'hpsoft',
 //            'fsign' => '08077d8ee01bad9968223b689925179b',
-//            'Hp_base_url' => "http://www.hotplutus.cn:9090/hpapi",
+//            'hp_base_url' => "http://www.hotplutus.cn:9090/hpapi",
 //        )
 //    )
 );                                  

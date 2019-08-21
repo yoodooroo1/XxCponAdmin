@@ -6,16 +6,16 @@ namespace Dock\Controller;
 class HpStoreController extends HpBaseController
 {
     /**
-     * 获取门店信息
-     * @return array ['code'=>200, 'msg'=>'', 'data'=>null]
+     * 获取门店信息(107)
      * User: czx
      * Date: 2019-04-17 11:25:21
      * Update: 2019-04-17 11:25:21
      * Version: 1.00
+     * URL : /dock.php?c=HpGoods&a=getHpGoods
      */
     public function getHpStore()
     {
-        $storeData = $this->getXxBindInfo();
+        $storeData = D('StoreMemberBind')->getXXStoreMemberBindInfo();
         foreach ($storeData as $key => $value){
             $params = array();
             $params['ftask'] = HP_GETSTORE;
@@ -23,7 +23,7 @@ class HpStoreController extends HpBaseController
             $params['fsign'] = $value['fsign'];
             $params['ftimestamp'] = time();
             $headers = array("Content-Type : text/html;charset=UTF-8");
-            $return_data = httpRequest($this->Hp_base_url, "POST", json_encode($params), $headers);
+            $return_data = httpRequest($this->hp_base_url, "POST", json_encode($params), $headers);
             $log_str = "[Dock->HpStore->getHpStore]  ".HP_GETSTORE." returndata->".json_encode($return_data)."\n".
                 "post_data:".json_encode($params);
             hpLogs($log_str);
@@ -38,8 +38,5 @@ class HpStoreController extends HpBaseController
             $return_data_two = httpRequest($xx_url, "post", $post_data);
         }
     }
-
-
-
 
 }

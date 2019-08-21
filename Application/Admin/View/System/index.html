@@ -1,0 +1,111 @@
+<include file="Public/meta" />
+<body>
+<div id="app" v-cloak>
+  <div class="admin-main">
+    <dl class="diy-dl">
+      <dt>MCH_ID:</dt>
+      <dd>
+        <input type="text" placeholder="输入MCH_ID" style="width: 400px" v-model="info.mch_id" />
+      </dd>
+    </dl>
+    <dl class="diy-dl">
+      <dt>KEY:</dt>
+      <dd>
+        <input type="text" placeholder="输入KEY" style="width: 400px" v-model="info.key" />
+      </dd>
+    </dl>
+    <dl class="diy-dl">
+      <dt>门店编号:</dt>
+      <dd>
+        <input type="text" placeholder="输入门店编号" style="width: 400px" v-model="info.shopid" />
+      </dd>
+    </dl>
+    <dl class="diy-dl">
+      <dt>积分比率:</dt>
+      <dd>
+        <font style="margin: 0 10px">1线下积分</font>
+        <font style="margin-right: 10px">=</font>
+        <input type="text" placeholder="输入积分数量" style="width: 100px" v-model="info.credit" />
+        <font style="margin-left: 10px">线上积分</font>
+      </dd>
+    </dl>
+    <dl class="diy-dl">
+      <dt>价格同步:</dt>
+      <dd>
+        <div class="diy-checkbox">
+          <input type="checkbox" v-model="info.price_sync_state" true-value="1" false-value="0"/>
+          <label>开启价格同步</label>
+        </div>
+      </dd>
+    </dl>
+    <dl class="diy-dl">
+      <dt>未出库库存:</dt>
+      <dd>
+        <div class="diy-checkbox">
+          <input type="checkbox" v-model="info.goods_deduction_state" true-value="1" false-value="0"/>
+          <label>下单未出库是否扣库存</label>
+        </div>
+      </dd>
+    </dl>
+    <div style="padding-left: 115px;padding-top: 10px">
+      <button type="button" class="diy-btn btn-primary" @click="save">保存</button>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data: function () {
+      return {
+        info: {
+          mch_id: '{$storeData["fmch_id"]}',
+          key: '{$storeData["fmch_key"]}',
+          credit: '{$rateData["rate"]}',
+          shopid: '{$storeData["fshopid"]}',
+          price_sync_state: '{$storeData["price_sync_state"]}', // 价格同步状态 0关闭， 1开启
+          goods_deduction_state: '{$storeData["goods_deduction_state"]}', // 0否 1是
+        }
+      }
+    },
+    mounted: function () {
+
+    },
+    methods: {
+      save: function () {
+        var self = this
+        if (self.info.mch_id === '') {
+          layer.msg('请输入MCH_ID')
+          return false
+        }
+        if (self.info.key === '') {
+          layer.msg('请输入KEY')
+          return false
+        }
+        if (self.info.shopid === '') {
+          layer.msg('请输入门店编号')
+          return false
+        }
+        $.ajax({
+          url: '/admin.php?c=member&a=memberBind',
+          dataType: 'JSON',
+          data: self.info,
+          success: function (result) {
+            layer.msg(result.msg)
+            if (+result.code === 200) {
+              setTimeout(function () {
+                location.reload();
+              },1000)
+            } else {
+              return false
+            }
+          },
+          error: function (result) {
+            layer.msg('系统繁忙，稍后再试！')
+            return false
+          }
+        })
+      }
+    }
+  })
+</script>

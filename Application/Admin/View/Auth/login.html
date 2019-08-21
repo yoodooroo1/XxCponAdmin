@@ -1,4 +1,5 @@
 <include file="Public:meta"/>
+<link rel="stylesheet" href="__PUBLIC__/admin/css/Auth/index.css" media="all">
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,28 +9,30 @@
     html, body{overflow-y: auto;background: #dfe9fb;}
   </style>
 </head>
-<body> 
-<div class="admin-login" id="app" v-cloak="">
-  <div class="login-form">            
-    <h3>门店卡卷管理系统</h3>
+<body>
+<div class="login-bg" id="app" v-cloak="">
+  <div class="login">
+    <h2>门店卡券管理系统</h2>
     <el-form ref="loginFrom" :model="query" :rules="rules" label-width="112px">
-      <el-form-item label="后台账号" prop="username">
-        <el-input v-model="query.username" placeholder="请输入账号"></el-input>
+      <el-form-item prop="username">
+        <el-input v-model="query.username" placeholder="请输入您的用户名"></el-input>
       </el-form-item>
-      <el-form-item label="后台密码" prop="password">
-        <el-input type="password" v-model="query.password" placeholder="请输入密码"></el-input>
+      <el-form-item prop="password">
+        <el-input type="password" v-model="query.password" placeholder="请输入您的密码"></el-input>
       </el-form-item>
-      <el-form-item label="图形验证码" prop="password" class="input-count">
-        <el-input v-model="query.verify" placeholder="请填写验证码"></el-input>
-        <img :src="temp.verifyImg" @click="changeImgCode()" title="点击刷新" class="el-button" style="height: 40px;padding: 0;">
+      <el-form-item prop="verify" class="input-count login-imgcode">
+        <el-input v-model="query.verify" placeholder="请输入图形验证码"></el-input>
+        <img :src="temp.verifyImg" @click="changeImgCode()" title="点击刷新" class="el-button"
+             style="height: 40px;padding: 0;">
       </el-form-item>
       <el-form-item style="width:100%;padding-top: 10px;">
-        <el-button type="primary" style="width:100%;" @click.native.prevent="handleLogin" :loading="temp.loading">登录</el-button>
+        <el-button type="primary" style="width:100%;" @click.native.prevent="handleLogin" :loading="temp.loading">
+          登录
+        </el-button>
       </el-form-item>
     </el-form>
-  </div> 
-</div>   
-<include file="Public:foot"/>
+  </div>
+</div>
 <script src="__ROOT__/Public/admin/js/Auth/login.js?version={$v}"></script>
 </body>
 </html>

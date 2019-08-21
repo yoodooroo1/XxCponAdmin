@@ -93,7 +93,7 @@ class AuthController extends BaseController
         $return_data = httpRequest($url,'POST',$post_data,$headers);
         $log_str = "[Admin->Auth->loginCheck]  "." returndata->".json_encode($return_data)."\n".
             "post_data:".json_encode($post_data);
-        XxAdmin($log_str);
+        xxAdmin($log_str);
         $return_info = json_decode($return_data['data'], true);
 
         if (!$return_info) {

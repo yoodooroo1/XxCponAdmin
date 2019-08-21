@@ -34,7 +34,7 @@ class HpMemberController extends HpBaseController
                     $params['fopenid'] = $svalue['wx_openid'];
                     $params['ftimestamp'] = time();
                     $headers = array("Content-Type : text/html;charset=UTF-8");
-                    $return_data = httpRequest($this->Hp_base_url, "POST", json_encode($params), $headers);
+                    $return_data = httpRequest($this->hp_base_url, "POST", json_encode($params), $headers);
                     $return_arr = json_decode($return_data['data'], true);
                     if ($return_arr['result']['code'] == 0) {
                         $tag = M("mb_hp_sync_version")->where(array('store_id' => $value['store_id']))->save(array('member_version' => $svalue['version']));
@@ -60,7 +60,79 @@ class HpMemberController extends HpBaseController
 
         }
     }
+/**会员绑定接口
+ * /Dock.php?c=HpMember&a=bindHpMember
+ * $params sign
+ * $params string fmch_id
+ * $params string fsign
+ * $params int store_id //门店id
+ * $params string tel //电话
+ * $params string openid //微信号
+ * $params string member_card //绑定卡号
+ * $params string member_name
+ * return{
+        code int 200
+ *      data{
+        code
+ * }
+ * }
+**/
+    public function bindHpMember(){
+        $req = $this->req;
+        $log_str = "[Dock->HpMember->bindHpMember]  " . HP_ADDBINDMEMBER . " post_data->" . json_encode($req);
+        hpLogs($log_str);
+        $store_info = D('StoreMemberBind')->getStoreInfoById($req['store_id']);
+        $params = array();
+        $params['ftask'] = HP_ADDBINDMEMBER;
+        $params['fmch_id'] = $store_info['fmch_id'];
+        $params['fsign'] = $store_info['fsign'];
+        if(empty($req['bind_type'])){
+            output_error('-100','类型错误','请选择绑定类型');
+        }
+        $params['fmobile'] = $req['tel'];
+        $params['fcardno'] = $req['member_card'];
+        $params['password'] = $req['password'];
+        $params['fopenid'] = $req['fopenid'];
+        $params['fname'] = $req['member_name'];
+        $params['fshopid'] = $store_info['fshopid'];
+        $params['ftimestamp'] = time();
+        $headers = array("Content-Type : text/html;charset=UTF-8");
+        $return_data = httpRequest($this->hp_base_url, "POST", json_encode($params), $headers);
+        $log_str = "[Dock->HpMember->bindHpMember]  ".HP_ADDBINDMEMBER." returndata->".json_encode($return_data)."\n".
+            "post_data:".json_encode($params);
+        hpLogs($log_str);
+        $return_arr = json_decode($return_data['data'], true);
+        if ($return_arr['result']['code'] == 0) {
+            $records = $return_arr['records'][0];
+            $rs = array();
+            $rs['xx_member_id'] = $req['member_id'];
+            $rs['third_member_id'] = $records['nid'];
+            $rs['tel'] = $records['fmobile'];
+            $rs['openid'] = $records['fopenid'];
+            $rs['member_card'] = $records['fcardno'];
+            $rs['summary'] = $records['fsummary'];
+            $rs['store_id'] = $req['store_id'];
+            $checkMember = M('member_bind')->where(array('third_member_id'=>$records['nid']))->find();
+            if(!empty($checkMember)){
+                $save = M('member_bind')->where(array('id'=>$checkMember['id']))->save($rs);
+                if(!empty($save)){
+                    output_data($rs,'用户绑定成功');
+                }
+                output_data($rs,'用户绑定成功');
+            }
+            $add = M('member_bind')->add($rs);
+            if(!empty($add)){
+                $log_str = "[Dock->HpMember->bindHpMember]  " ."会员绑定成功," . " 会员信息:信息会员ID".$req['member_id'] . json_encode($rs);
+                hpLogs($log_str);
+                output_data($rs,'用户绑定成功');
+            }
 
+        }else{
+            $log_str = "[Dock->HpMember->bindHpMember]  " ."会员绑定失败," . " 失败信息:" . $return_arr['result']['msg'];
+            hpLogs($log_str);
+            output_error(-100,$return_arr['result']['msg'],'请检查参数');
+        }
+    }
     public function getHpStoreDatas()
     {
         $post_data = array();
@@ -70,8 +142,10 @@ class HpMemberController extends HpBaseController
         $return_data = httpRequest($xx_url, "post", $post_data);
         $return_data = json_decode($return_data['data'], true);
         if ($return_data['result'] == 0) {
+            var_dump($return_data['datas']);
             return $return_data['datas'];
         }
+
         return array();
     }
 
@@ -85,7 +159,7 @@ class HpMemberController extends HpBaseController
         $params['fopenid'] = '';
         $params['ftimestamp'] = time();
         $headers = array("Content-Type : text/html;charset=UTF-8");
-        $return_data = httpRequest($this->Hp_base_url, "POST", json_encode($params), $headers);
+        $return_data = httpRequest($this->hp_base_url, "POST", json_encode($params), $headers);
         $return_arr = json_decode($return_data['data'], true);
     }
 

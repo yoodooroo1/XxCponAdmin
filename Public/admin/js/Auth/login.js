@@ -3,7 +3,6 @@ var vm = new Vue({
   data: function () {
     return {
       temp: {
-        loading: false,
         isCount: false,
         countNum: 120, //当前剩余秒数
         timer: null, //timer变量，控制时间
@@ -14,7 +13,6 @@ var vm = new Vue({
         username: '',
         password: '',
         verify: '',
-        tel_code: '',//授权手机验证码
         remember: 1//是否记住密码【1：是】
       },
       rules: {
@@ -24,7 +22,7 @@ var vm = new Vue({
         password: [
           {required: true, message: '请输入密码', trigger: 'blur'},
         ],
-        tel_code:[
+        verify:[
           {required: true, message: '请输入验证码', trigger: 'blur'},
         ],
       },

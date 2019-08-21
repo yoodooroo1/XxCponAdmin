@@ -1,52 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="__ROOT__/Public/layui/css/layui.css">
-    <script type="text/javascript" src="__ROOT__/Public/layui/layui.js"></script>
-    <title>主页</title>
-    <style type="text/css">
-        .header{width: 100%;height:50px;line-height: 50px;background: dodgerblue}
-        .title{font-size: 16px;color: #FFFFFF}
-        .menu{width: 200px;position: absolute}
-    </style>
-</head>
+<include file="Public/meta" />
 <body>
-<div class="header">
-    <ul class="layui-nav layui-bg-blue">
-        <span style="margin-left: 10px;font-weight: bold;font-size: 20px">门店卡卷管理系统</span>
-        <li class="layui-nav-item" style="float: right">
-            <a  href=""><img src="__ROOT__/Public/common/img/headimg/d.jpg" class="layui-nav-img">管理员</a  >
-            <dl class="layui-nav-child">
-                <dd ><a href="javascript:;" onclick="logout()">退出</a></dd>
-            </dl>
-        </li>
-    </ul>
-</div>
-<div class="menu" id="menu" style="margin-top:7px">
-    <div class="layui-collapse" lay-accordion>
-            <div class="layui-colla-content layui-show" style="width: 100%;padding: 0">
-                    <div class="layui-colla-item" >
-                        <h2 class="layui-colla-title"style="background: white;font-size: 16px;font-weight: bold">优惠卷</h2>
-                        <div class="layui-colla-content layui-show" onclick="menuFire(this)" src="/admin/coupon/index">
-                            <div style="font-size: 15px;"><p>优惠卷绑定</p></div>
-                        </div>
-                    </div>
-                </div>
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header diy-header">
+    <div class="admin-title">
+      <div class="logo"><img src="__PUBLIC__/admin/images/common/logo.png" /></div>
+      <div class="title-box">
+        <h4>门店卡券管理系统</h4>
+        <div class="admin-content">
+          <ul class="layui-nav">
+            <li class="layui-nav-item">
+              <a href="javascript:;">admin</a>
+              <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                <dd><a onclick="logout()"><i class="myicon-logout"></i>退出登录</a></dd>
+              </dl>
+            </li>
+          </ul>
         </div>
-    <!--<ul class="layui-nav layui-nav-tree" lay-filter="test" style="background: deepskyblue">-->
-        <!--&lt;!&ndash; 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> &ndash;&gt;-->
-        <!--<li class="layui-nav-item layui-nav-itemed">-->
-            <!--<a href="javascript:;"style="color: black">优惠卷</a>-->
-            <!--<dl class="layui-nav-child">-->
-                <!--<dd onclick="menuFire(this)" src="/admin/coupon/index"><a>优惠卷绑定</a></dd>-->
-            <!--</dl>-->
-        <!--</li>-->
-    <!--</ul>-->
+        <div class="diy-slide_left"></div>
+      </div>
+    </div>
+  </div>
+  <div class="layui-side diy-side">
+    <div class="layui-side-scroll">
+      <ul class="layui-nav layui-nav-tree" lay-filter="side">
+        <li class="layui-nav-item layui-nav-itemed">
+          <a class="javascript:;" href="javascript:;" style="display: none">
+            <cite>一级菜单</cite>
+          </a>
+          <dl class="layui-nav-child">
+            <dd class="layui-this">
+              <a href="javascript:;" _href="/admin.php?m=Admin&c=System&a=index">
+                <cite>系统配置</cite>
+              </a>
+            </dd>
+            <dd style="display: none">
+              <a href="javascript:;" _href="/admin.php?m=Admin&c=Coupon&a=index">
+                <cite>优惠券绑定</cite>
+              </a>
+            </dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+  <div class="layui-tab layui-tab-card diy-main" lay-filter="diy-tab" lay-allowclose="true">
+    <ul class="layui-tab-title">
+      <li class="layui-this">
+        系统配置
+        <i class="layui-icon layui-unselect layui-tab-close">ဆ</i>
+      </li>
+    </ul>
+    <div class="layui-tab-content">
+      <div class="layui-tab-item layui-show">
+        <iframe frameborder="0" src="/admin.php?m=Admin&c=System&a=index" class="diy-iframe"></iframe>
+      </div>
+    </div>
+  </div>
 </div>
-<div class="main" style="position: absolute;left: 200px;right: 0px" >
-    <iframe src="/admin/coupon/index" onload="resetMainHeight(this)" style="width: 100%;height: 100%;"frameborder="0" scrolling="0"></iframe>
-</div>
-<script src="__ROOT__/Public/admin/js/Index/index.js?version={$v}"></script>
 </body>
-</html>
+<script>
+  // 退出
+  function logout(){
+    layer.confirm('', {
+      title: '确定要退出吗？',
+      skin: 'layer-skin'
+    }, function(){
+      $.get('admin.php?m=Admin&c=Auth&a=logout',function(res){
+        console.log(res)
+        if(res.code === 200){
+          layer.msg(res.msg,{'icon':1});
+          setTimeout(function()
+          {
+            window.location.href = 'admin.php?m=Admin&c=Auth&a=login';
+            window.history.go(0);
+          },1000);
+        }else{
+          layer.msg(res.msg,{'icon':2});
+        }
+      },'json');
+    });
+  }
+</script>

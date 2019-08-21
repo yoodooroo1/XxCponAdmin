@@ -71,8 +71,10 @@ define('BALANCE_LOGS_PATH', RUNTIME_PATH.'/Logs/balance/'.date('y_m_d').'.log');
 define('REFUND_GOODS_PATH', RUNTIME_PATH.'/Logs/refund_goods/'.date('y_m_d').'.log');
 define('TEST_PATH', RUNTIME_PATH.'/Logs/test/'.date('y_m_d').'.log');
 define('HP_LOGS_PATH', RUNTIME_PATH.'/Logs/Hp/'.date('y_m_d').'.log');
-define('XX_ADMIN', RUNTIME_PATH.'/Logs/XxAdmin/'.date('y_m_d').'.log');
-define('XX_COUPONS', RUNTIME_PATH.'/Logs/XxCoupons/'.date('y_m_d').'.log');
+define('CREDIT_LOGS_PATH', RUNTIME_PATH.'/Logs/Credit/'.date('y_m_d').'.log');
+define('GOODS_SYNC_PATH', RUNTIME_PATH.'/Logs/GoodSync/'.date('y_m_d').'.log');
+define('XX_ADMIN', RUNTIME_PATH.'/Logs/xxAdmin/'.date('y_m_d').'.log');
+define('ADMIN_COUPONS_PATH', RUNTIME_PATH.'/Logs/CouponAdmin/'.date('y_m_d').'.log');
 $SRC = [
     'VUE' => [
         'common' => '/Public/common/js/plug-in/vue-2.x/vue.min.js?v=' . EXTRA_VERSION,
@@ -1740,12 +1742,13 @@ function output_error($result, $error, $debug, $datas = array(), $log = false, $
     $data = array();
     $data['result'] = $result;
     $data['error'] = $error;
-    $data['debug'] = $debug;
+    $data['msg'] = $debug;
     $data['datas'] = $datas;
     if ($log) {
         logRecord($fag . "->" . json_encode($data, JSON_UNESCAPED_UNICODE), \Think\Log::ERR, 2);
     }
     echo json_encode($data, JSON_UNESCAPED_UNICODE);
+    header("Content-type:text/html;charset=utf-8");
     die;
 }
 
@@ -3307,7 +3310,7 @@ function getRequest($type = 'all')
             $req = array_merge($req, $reqBody);
         }
     }
-    return empty($req) ? [] : $req;
+    return empty($req) ? array() : $req;
 }
 
 // ====================================================    Core    ====================================================
@@ -4280,12 +4283,20 @@ function TestLogs($log_str){
     \Think\Log::write($log_str, \Think\Log::INFO, "", TEST_PATH);
 }
 
-function XxAdmin($log_str){
+function xxAdmin($log_str){
     \Think\Log::write($log_str, \Think\Log::INFO, "", XX_ADMIN);
 }
 
-function XxCoupons($log_str){
-    \Think\Log::write($log_str, \Think\Log::INFO, "", XX_COUPONS);
+function couponAdminLogs($log_str){
+    \Think\Log::write($log_str, \Think\Log::INFO, "", ADMIN_COUPONS_PATH);
+}
+
+function goodsSycnLog($log_str){
+    \Think\Log::write($log_str, \Think\Log::INFO, "", GOODS_SYNC_PATH);
+}
+
+function creditLogs($log_str){
+    \Think\Log::write($log_str, \Think\Log::INFO, "", CREDIT_LOGS_PATH);
 }
 
 
